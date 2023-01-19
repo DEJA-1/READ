@@ -32,7 +32,7 @@ import com.example.read.presentation.common_components.TextInputField
 @Composable
 fun LoginSection(
     navController: NavController,
-    onDone: (String, String) -> Unit = { email, pasword ->}
+    onDone: (String, String, Boolean) -> Unit = { email, pasword, isSignUp -> },
 ) {
     val email = remember {
         mutableStateOf("")
@@ -52,6 +52,9 @@ fun LoginSection(
     val focusRequester = remember {
         FocusRequester()
     }
+    val isSignUp = remember {
+        mutableStateOf(false)
+    }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -59,14 +62,16 @@ fun LoginSection(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = "Welcome back",
-            style = MaterialTheme.typography.h3,
+            text = if (!isSignUp.value) "Welcome back" else "Use a strong password!",
+            style = if (!isSignUp.value) MaterialTheme.typography.h3 else MaterialTheme.typography.h4,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
             color = AppColors.mTextWhite
         )
 
-        RegisterText()
+        RegisterText() {
+            isSignUp.value = !isSignUp.value
+        }
 
         TextInputField(
             valueState = email,
@@ -101,10 +106,13 @@ fun LoginSection(
         AnimatedVisibility(
             visible = isButtonVisible.value
         ) {
-            MyButton(modifier = Modifier.padding(top = 8.dp)) {
-                Log.d("TEST", "${email.value.trim()}, ${password.value.trim()}")
-                onDone(email.value.trim(), password.value.trim())
-                navController.navigate(Screen.Home.route)
+            MyButton(
+                modifier = Modifier.padding(top = 8.dp),
+                text = if (isSignUp.value) "SIGN UP" else "LOGIN"
+            ) {
+                onDone(email.value.trim(), password.value.trim(), !isSignUp.value)
+                if (isSignUp.value)
+                    isSignUp.value = !isSignUp.value
             }
         }
 

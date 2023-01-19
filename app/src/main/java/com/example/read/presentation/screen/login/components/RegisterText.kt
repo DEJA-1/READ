@@ -16,9 +16,11 @@ import androidx.compose.ui.unit.sp
 import com.example.read.commons.AppColors
 import com.google.common.io.Files.append
 
-@Preview
+
 @Composable
-fun RegisterText() {
+fun RegisterText(
+    onSignUpClicked: () -> Unit
+) {
     Text(
         buildAnnotatedString {
             withStyle(
@@ -28,7 +30,7 @@ fun RegisterText() {
                     color = AppColors.mTextWhite
                 )
             ) {
-                append("You're new? ")
+                append("Are you new? ")
             }
 
             withStyle(
@@ -43,6 +45,8 @@ fun RegisterText() {
 
             }
         },
-        modifier = Modifier.clickable {  }
+        modifier = Modifier.clickable {
+            onSignUpClicked()
+        }
     )
 }
