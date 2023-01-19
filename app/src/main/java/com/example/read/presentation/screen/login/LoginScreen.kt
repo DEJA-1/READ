@@ -1,11 +1,13 @@
 package com.example.read.presentation.screen.login
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -19,6 +21,8 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel,
 ) {
+
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -44,8 +48,8 @@ fun LoginScreen(
                         navController.navigate(Screen.Home.route)
                     }
                 } else {
-                    //create account
-
+                    viewModel.createUserWithEmailAndPassword(email, password)
+                    Toast.makeText(context, "Account created", Toast.LENGTH_SHORT).show()
                 }
             }
         }
