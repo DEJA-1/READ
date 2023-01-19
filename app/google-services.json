@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1075739790588",
+    "project_id": "read-a40de",
+    "storage_bucket": "read-a40de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075739790588:android:a4004b503b33b78f8c9b79",
+        "android_client_info": {
+          "package_name": "com.example.read"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075739790588-s2k5edphmfi3uv1digai3gctralks44b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgKmEiQDreHO7b07VjqmbRurPxW4vHdhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075739790588-s2k5edphmfi3uv1digai3gctralks44b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
