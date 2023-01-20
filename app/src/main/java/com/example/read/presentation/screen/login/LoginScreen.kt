@@ -33,7 +33,6 @@ fun LoginScreen(
                 )
             )
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -42,7 +41,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
 
-            LoginSection(navController = navController) { email, password, isSignUp ->
+            LoginSection() { email, password, isSignUp ->
                 if (isSignUp) {
                     viewModel.singInWithEmailAndPassword(email, password) {
                         navController.navigate(Screen.Home.route)

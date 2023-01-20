@@ -1,35 +1,43 @@
 package com.example.read.presentation.screen.login
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.read.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
     private val auth: FirebaseAuth = Firebase.auth
+    val isError = mutableStateOf(false)
 
-    fun singInWithEmailAndPassword(email: String, password: String, navigate: () -> Unit) {
+    fun singInWithEmailAndPassword(
+        email: String,
+        password: String,
+        navigate: () -> Unit
+    ) {
         viewModelScope.launch {
-            try {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful)
-                            navigate()
-                        else
-                            Log.d("Firebase", it.result.toString())
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener {
+                    if (it.isSuccessful)
+                        navigate()
+                    else {
+                        Log.d("Firebase", "${it.exception?.message}")
+                        if (it.exception is FirebaseAuthException) {
+                            isError.value = true
+                            Log.d("ele", "${isError.value}")
+                        }
                     }
-            } catch (ex: Exception) {
-                Log.d("Firebase", "${ex.message}")
-            }
+
+                }
         }
     }
 

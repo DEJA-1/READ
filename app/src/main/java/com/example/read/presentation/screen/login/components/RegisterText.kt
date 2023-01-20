@@ -32,7 +32,6 @@ fun RegisterText(
             ) {
                 append("Are you new? ")
             }
-
             withStyle(
                 style = SpanStyle(
                     fontWeight = FontWeight.ExtraBold,

@@ -1,5 +1,6 @@
 package com.example.read.presentation.common_components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,7 +18,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.read.commons.AppColors
+import com.example.read.presentation.screen.login.LoginViewModel
 import com.example.read.util.gradient
 
 @Preview
@@ -25,16 +28,18 @@ import com.example.read.util.gradient
 fun MyButton(
     modifier: Modifier = Modifier,
     text: String = "CONTINUE",
+    viewModel: LoginViewModel = hiltViewModel(),
     onButtonClicked: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
+                Log.d("FromButton", "${viewModel.isError.value}")
                 onButtonClicked()
             }
-            .background(gradient(colors = listOf(AppColors.mMain, AppColors.mForGradient)))
-            .clip(RoundedCornerShape(8.dp)),
+            .background(AppColors.mMain)
+            .clip(RoundedCornerShape(16.dp)),
         contentAlignment = Alignment.Center
     ) {
         Text(
