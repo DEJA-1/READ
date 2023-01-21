@@ -35,7 +35,6 @@ fun MyButton(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                Log.d("FromButton", "${viewModel.isError.value}")
                 onButtonClicked()
             }
             .background(AppColors.mMain)

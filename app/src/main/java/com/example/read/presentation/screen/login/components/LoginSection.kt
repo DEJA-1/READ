@@ -36,8 +36,8 @@ import com.example.read.presentation.screen.login.LoginViewModel
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginSection(
-    viewModel: LoginViewModel = hiltViewModel(),
-    onDone: (String, String, Boolean) -> Unit = { email, pasword, isSignUp -> },
+    viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    onDone: (String, String) -> Unit = { email, pasword -> },
 ) {
     val context = LocalContext.current
 
@@ -59,9 +59,9 @@ fun LoginSection(
     val focusRequester = remember {
         FocusRequester()
     }
-    val isSignUp = remember {
-        mutableStateOf(false)
-    }
+    //przenies to do viewmodela i potem za pomoca tego wywoluj funkcje, bo jak chce przelaczac meidzy rejestracja a loginem
+    //to updatoweanie isSignUp nie nadaza
+
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -69,16 +69,15 @@ fun LoginSection(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = if (!isSignUp.value) "Welcome back" else "Use a strong password with at least 6 characters!",
-            style = if (!isSignUp.value) MaterialTheme.typography.h3 else MaterialTheme.typography.body1,
+            text = if (!viewModel.isSignUp.value) "Welcome back" else "Use a strong password with at least 6 characters!",
+            style = if (!viewModel.isSignUp.value) MaterialTheme.typography.h3 else MaterialTheme.typography.body1,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
             color = AppColors.mTextWhite
         )
 
         RegisterText() {
-            isSignUp.value = !isSignUp.value
-            viewModel.isError.value = !viewModel.isError.value
+            viewModel.handleSingUp()
         }
 
         TextInputField(
@@ -116,14 +115,10 @@ fun LoginSection(
         ) {
             MyButton(
                 modifier = Modifier.padding(top = 8.dp),
-                text = if (isSignUp.value) "SIGN UP" else "LOGIN"
+                text = if (viewModel.isSignUp.value) "SIGN UP" else "LOGIN"
             ) {
-                if (viewModel.isError.value) {
-                    Toast.makeText(context, "Invalid email or password", Toast.LENGTH_LONG).show()
-                }
-                onDone(email.value.trim(), password.value.trim(), !isSignUp.value)
-                if (isSignUp.value)
-                    isSignUp.value = !isSignUp.value
+                keyboardController?.hide()
+                onDone(email.value.trim(), password.value.trim())
             }
         }
 

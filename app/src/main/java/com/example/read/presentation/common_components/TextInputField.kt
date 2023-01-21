@@ -21,7 +21,7 @@ import com.example.read.presentation.screen.login.LoginViewModel
 
 @Composable
 fun TextInputField(
-    viewModel: LoginViewModel = hiltViewModel(),
+    viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     valueState: MutableState<String>,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -46,7 +46,7 @@ fun TextInputField(
         modifier = modifier,
         singleLine = isSingleLane,
         trailingIcon = {
-            if (viewModel.isError.value)
+            if (viewModel.isError.value || viewModel.isErrorSignUp.value)
                 Icon(
                     imageVector = Icons.Filled.Error,
                     contentDescription = "error icon",
@@ -58,10 +58,10 @@ fun TextInputField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = onAction,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = if (viewModel.isError.value) MaterialTheme.colors.error else focusedBorderColor,
-            focusedLabelColor = if (viewModel.isError.value) MaterialTheme.colors.error else focusedLabelColor,
-            unfocusedBorderColor = if (viewModel.isError.value) MaterialTheme.colors.error else Color.LightGray,
-            unfocusedLabelColor = if (viewModel.isError.value) MaterialTheme.colors.error else Color.LightGray,
+            focusedBorderColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else focusedBorderColor,
+            focusedLabelColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else focusedLabelColor,
+            unfocusedBorderColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else Color.LightGray,
+            unfocusedLabelColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else Color.LightGray,
             cursorColor = AppColors.mMain
         ),
         textStyle = TextStyle(color = AppColors.mTextWhite),

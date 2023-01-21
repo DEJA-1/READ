@@ -1,6 +1,9 @@
 package com.example.read.presentation.screen.login
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,12 +16,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+) : ViewModel() {
 
     private val auth: FirebaseAuth = Firebase.auth
-    val isError = mutableStateOf(false)
+
+    private val _isError = mutableStateOf(false)
+    val isError = _isError
+
+    private val _isErrorSignUp = mutableStateOf(false)
+    val isErrorSignUp = _isErrorSignUp
+
+    private val _isSignUp = mutableStateOf(false)
+    val isSignUp = _isSignUp
 
     fun singInWithEmailAndPassword(
+        context: Context? = null,
         email: String,
         password: String,
         navigate: () -> Unit
@@ -27,32 +40,41 @@ class LoginViewModel : ViewModel() {
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
-                    if (it.isSuccessful)
+                    if (it.isSuccessful) {
+                        _isError.value = false
                         navigate()
-                    else {
-                        Log.d("Firebase", "${it.exception?.message}")
-                        if (it.exception is FirebaseAuthException) {
-                            isError.value = true
-                            Log.d("ele", "${isError.value}")
-                        }
+                    } else {
+                        _isError.value = true
+                        Toast.makeText(context, "${it.exception?.message}", Toast.LENGTH_LONG).show()
                     }
-
                 }
         }
     }
 
-    fun createUserWithEmailAndPassword(email: String, password: String) {
+    fun createUserWithEmailAndPassword(
+        context: Context? = null,
+        email: String,
+        password: String
+    ) {
         viewModelScope.launch {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         val displayName = it.result.user?.email?.split('@')?.first()
                         createUser(displayName)
+
+                        _isSignUp.value = false
+                        _isErrorSignUp.value = false
+
+                        Toast.makeText(context, "Account created", Toast.LENGTH_SHORT).show()
+                    } else {
+                        _isSignUp.value = true
+                        _isErrorSignUp.value = true
+                        Toast.makeText(context, "${it.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
         }
     }
-
     private fun createUser(displayName: String?) {
         val user = User(
             userId = auth.currentUser?.uid.toString(),
@@ -62,5 +84,19 @@ class LoginViewModel : ViewModel() {
 
         FirebaseFirestore.getInstance().collection("users")
             .add(user)
+    }
+
+    fun handleErrorLogin(toast: Toast? = null) {
+        _isError.value = !_isError.value
+        toast?.show()
+    }
+
+    fun handleErrorSignUp(toast: Toast? = null) {
+        _isErrorSignUp.value = !_isErrorSignUp.value
+        toast?.show()
+    }
+
+    fun handleSingUp() {
+        _isSignUp.value = !_isSignUp.value
     }
 }
