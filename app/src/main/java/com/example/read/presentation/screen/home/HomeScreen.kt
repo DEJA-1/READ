@@ -11,6 +11,7 @@ import com.example.read.commons.AppColors
 import com.example.read.navigation.Screen
 import com.example.read.presentation.screen.home.components.CurrentlyReadingSection
 import com.example.read.presentation.screen.home.components.Header
+import com.example.read.presentation.screen.home.components.YourCollectionSection
 import com.example.read.util.gradient
 
 @Composable
@@ -25,7 +26,7 @@ fun HomeScreen(
             .background(gradient(colors = listOf(AppColors.mBackground, AppColors.mBackgroundSec)))
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp)
         ) {
 
             Header(nick = viewModel.currentUser?.email?.split('@')?.first().toString()) {
@@ -36,13 +37,15 @@ fun HomeScreen(
 
             CurrentlyReadingSection()
             
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(80.dp))
 
             Divider(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
                 color = AppColors.mMain,
                 thickness = 2.dp
             )
+
+            YourCollectionSection()
         }
 
     }

@@ -1,9 +1,11 @@
 package com.example.read.presentation.screen.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -17,7 +19,7 @@ import com.example.read.commons.AppColors
 fun CurrentlyReadingSection() {
 
     Column(
-        modifier = Modifier.padding(bottom = 8.dp)
+        modifier = Modifier.padding()
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -31,6 +33,20 @@ fun CurrentlyReadingSection() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        BookRow()
+        BookRow() {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Transparent)
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.3f)
+                        .background(AppColors.mMain)
+                )
+            }
+        }
     }
 }
