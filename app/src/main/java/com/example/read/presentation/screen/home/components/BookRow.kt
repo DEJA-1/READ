@@ -35,7 +35,7 @@ fun BookRow(
             Box(
                 modifier = Modifier.fillMaxWidth()
                     .fillMaxHeight(0.3f)
-                    .background(gradient(colors = listOf(AppColors.mMain, AppColors.mForGradient)))
+                    .background(AppColors.mMain)
             )
         }
     }

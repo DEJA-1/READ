@@ -16,12 +16,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.example.read.commons.AppColors
 import com.example.read.presentation.screen.login.LoginViewModel
 
 @Composable
 fun TextInputField(
-    viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     valueState: MutableState<String>,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -29,10 +29,13 @@ fun TextInputField(
     label: String,
     focusedBorderColor: Color = AppColors.mMain,
     focusedLabelColor: Color = AppColors.mMain,
+    unfocusedBorderColor: Color = Color.LightGray,
+    unfocusedLabelColor: Color = Color.LightGray,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     onAction: KeyboardActions = KeyboardActions.Default,
-    isPassword: Boolean = false
+    isPassword: Boolean = false,
+    trailingIcon: @Composable() () -> Unit
 ) {
 
     val visualTransformation = if (isPassword)
@@ -45,23 +48,19 @@ fun TextInputField(
         onValueChange = { valueState.value = it },
         modifier = modifier,
         singleLine = isSingleLane,
-        trailingIcon = {
-            if (viewModel.isError.value || viewModel.isErrorSignUp.value)
-                Icon(
-                    imageVector = Icons.Filled.Error,
-                    contentDescription = "error icon",
-                    tint = MaterialTheme.colors.error
-                )
-        },
+        trailingIcon = trailingIcon,
+//        {
+//
+//        },
         enabled = enabled,
         label = { Text(text = label) },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = onAction,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else focusedBorderColor,
-            focusedLabelColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else focusedLabelColor,
-            unfocusedBorderColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else Color.LightGray,
-            unfocusedLabelColor = if (viewModel.isError.value || viewModel.isErrorSignUp.value) MaterialTheme.colors.error else Color.LightGray,
+            focusedBorderColor = focusedBorderColor,
+            focusedLabelColor = focusedLabelColor,
+            unfocusedBorderColor = unfocusedBorderColor,
+            unfocusedLabelColor = unfocusedLabelColor,
             cursorColor = AppColors.mMain
         ),
         textStyle = TextStyle(color = AppColors.mTextWhite),

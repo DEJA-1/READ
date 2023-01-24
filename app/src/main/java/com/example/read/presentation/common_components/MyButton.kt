@@ -19,16 +19,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.example.read.commons.AppColors
 import com.example.read.presentation.screen.login.LoginViewModel
 import com.example.read.util.gradient
 
-@Preview
 @Composable
 fun MyButton(
     modifier: Modifier = Modifier,
     text: String = "CONTINUE",
-    viewModel: LoginViewModel = hiltViewModel(),
     onButtonClicked: () -> Unit = {},
 ) {
     Box(

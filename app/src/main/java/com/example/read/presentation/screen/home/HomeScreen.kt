@@ -2,6 +2,7 @@ package com.example.read.presentation.screen.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,14 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             CurrentlyReadingSection()
+            
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Divider(
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                color = AppColors.mMain,
+                thickness = 2.dp
+            )
         }
 
     }

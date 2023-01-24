@@ -1,9 +1,6 @@
 package com.example.read.presentation.screen.home.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,6 +28,8 @@ fun CurrentlyReadingSection() {
             fontSize = 40.sp,
             textAlign = TextAlign.Center
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         BookRow()
     }
