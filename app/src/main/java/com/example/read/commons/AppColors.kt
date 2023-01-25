@@ -8,4 +8,6 @@ object AppColors {
     val mMain = Color(0xFFF5CB5C)
     val mTextWhite = Color(0xFFf5f5f5)
     val mForGradient = Color(0xFF573e00)
+    val mRed = Color(0xFF621708)
+    val mGreen = Color(0xFF3A7D44)
 }

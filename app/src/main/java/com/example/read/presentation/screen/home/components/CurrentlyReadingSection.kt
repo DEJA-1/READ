@@ -2,42 +2,39 @@ package com.example.read.presentation.screen.home.components
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.read.commons.AppColors
+import com.example.read.navigation.Screen
 import com.example.read.presentation.common_components.MyButton
+import com.example.read.presentation.screen.home.HomeViewModel
 
 @Preview
 @Composable
-fun CurrentlyReadingSection(context: Context = LocalContext.current) {
-
-    val isCardExpanded = remember {
-        mutableStateOf(false)
-    }
+fun CurrentlyReadingSection(
+    context: Context = LocalContext.current,
+    viewModel: HomeViewModel,
+    navController: NavController
+) {
 
     Column(
         modifier = Modifier.padding()
@@ -55,39 +52,61 @@ fun CurrentlyReadingSection(context: Context = LocalContext.current) {
         Spacer(modifier = Modifier.height(10.dp))
 
         BookRow(
-            onItemClicked = { isCardExpanded.value = !isCardExpanded.value }
+            onItemClicked = { viewModel.changeCardExpandedState() }
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(AppColors.mBackgroundSec),
-                contentAlignment = Center
+                contentAlignment = BottomCenter
             ) {
-                Row() {
-                    AnimatedVisibility(visible = isCardExpanded.value) {
 
+                Row {
+                    AnimatedVisibility(visible = viewModel.isCardExpanded.value) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Center
                         ) {
-                            MyButton(
-                                modifier = Modifier.fillMaxWidth(0.7f)
-                                    .fillMaxHeight(0.2f)
-                                    .clip(RoundedCornerShape(12.dp)),
-                                text = "MARK AS READ",
-                                fontSize = 8
-                            )
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                MyButton(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.7f)
+                                        .fillMaxHeight(0.2f)
+                                        .clip(RoundedCornerShape(12.dp)),
+                                    text = "MARK AS READ",
+                                    fontSize = 12,
+                                    contentPadding = 8
+                                ) {
+                                    viewModel.changeReadState()
+                                    viewModel.changeCardExpandedState()
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+
+                                MyButton(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.7f)
+                                        .fillMaxHeight(0.24f)
+                                        .clip(RoundedCornerShape(12.dp)),
+                                    text = "RATE",
+                                    fontSize = 12,
+                                    contentPadding = 8
+                                ) {
+                                    navController.navigate(Screen.Rate.route)
+                                }
+
+
+                            }
+
                         }
 
                     }
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxSize()
-                            .border(
-                                width = 4.dp,
-                                shape = RoundedCornerShape(12.dp),
-                                color = Color(0xFF621708)
-                            )
                             .clip(RoundedCornerShape(12.dp)),
                         model = ImageRequest.Builder(context)
                             .data("http://books.google.com/books/content?id=pZ5iAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api")
@@ -96,7 +115,15 @@ fun CurrentlyReadingSection(context: Context = LocalContext.current) {
                         contentScale = ContentScale.FillBounds,
                         contentDescription = "Book image"
                     )
+
                 }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.1f)
+                        .background(if (viewModel.isBookRead.value) AppColors.mGreen else AppColors.mRed)
+                )
 
             }
         }

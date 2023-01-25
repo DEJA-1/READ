@@ -42,7 +42,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            CurrentlyReadingSection(context = context)
+            CurrentlyReadingSection(context = context, viewModel = viewModel, navController = navController)
 
             MyButton(
                 text = "SEARCH", modifier = Modifier

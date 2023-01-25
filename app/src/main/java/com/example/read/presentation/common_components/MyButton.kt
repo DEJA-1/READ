@@ -30,6 +30,7 @@ fun MyButton(
     modifier: Modifier = Modifier,
     text: String = "CONTINUE",
     fontSize: Int = 24,
+    contentPadding: Int = 15,
     onButtonClicked: () -> Unit = {}
 ) {
     Box(
@@ -43,7 +44,7 @@ fun MyButton(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier = Modifier.padding(15.dp),
+            modifier = Modifier.padding(contentPadding.dp),
             text = text,
             color = AppColors.mTextWhite,
             style = MaterialTheme.typography.h5,

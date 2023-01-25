@@ -2,6 +2,7 @@ package com.example.read.presentation.screen.home.components
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -54,9 +55,8 @@ fun YourCollectionSection(
             onItemClicked = { navController.navigate(Screen.Rate.route) }
         ) {
             Box(
-                modifier = Modifier.fillMaxSize()
-                    .border(width = 4.dp, shape = RoundedCornerShape(12.dp), color = Color(0xFF3A7D44)),
-                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter
             ) {
 
                 AsyncImage(
@@ -69,6 +69,8 @@ fun YourCollectionSection(
                     contentScale = ContentScale.FillBounds,
                     contentDescription = "Book image"
                 )
+
+                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.1f).background(AppColors.mGreen))
             }
 
         }
