@@ -28,7 +28,7 @@ fun YourCollectionSection() {
         Spacer(modifier = Modifier.height(20.dp))
 
         BookRow(
-            shapeDp = 360,
+            shapeDp = 180,
             heightSize = 125,
             widthSize = 125,
             isForYou = true

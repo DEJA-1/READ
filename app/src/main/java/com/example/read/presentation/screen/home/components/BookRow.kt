@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,18 +35,19 @@ fun BookRow(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Card(
+        Box(
             modifier = Modifier
+                .clip(RoundedCornerShape(shapeDp.dp))
                 .clickable {
                     onItemClicked()
                 }
                 .height(heightSize.dp)
-                .width(widthSize.dp),
-            shape = RoundedCornerShape(shapeDp.dp),
-            elevation = 4.dp,
-            backgroundColor = AppColors.mBackgroundSec,
-            content = content
-        )
+                .width(widthSize.dp)
+                .background(AppColors.mBackgroundSec)
+
+        ) {
+            content()
+        }
 
         if (isForYou) {
             Text(
