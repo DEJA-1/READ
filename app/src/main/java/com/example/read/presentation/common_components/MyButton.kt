@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import com.example.read.commons.AppColors
@@ -28,7 +29,8 @@ import com.example.read.util.gradient
 fun MyButton(
     modifier: Modifier = Modifier,
     text: String = "CONTINUE",
-    onButtonClicked: () -> Unit = {},
+    fontSize: Int = 24,
+    onButtonClicked: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -46,7 +48,8 @@ fun MyButton(
             color = AppColors.mTextWhite,
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.ExtraBold,
-            fontStyle = FontStyle.Italic
+            fontStyle = FontStyle.Italic,
+            fontSize = fontSize.sp
         )
     }
 }

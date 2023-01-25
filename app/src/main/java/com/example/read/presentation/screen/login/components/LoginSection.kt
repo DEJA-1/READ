@@ -58,9 +58,6 @@ fun LoginSection(
     val focusRequester = remember {
         FocusRequester()
     }
-    //przenies to do viewmodela i potem za pomoca tego wywoluj funkcje, bo jak chce przelaczac meidzy rejestracja a loginem
-    //to updatoweanie isSignUp nie nadaza
-
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -123,7 +120,6 @@ fun LoginSection(
                     .focusRequester(focusRequester),
                 onAction = KeyboardActions {
                     if (!isTextValid) return@KeyboardActions
-//                    email.value = email.value.split('@').first()
                     isButtonVisible.value = true
                     keyboardController?.hide()
                 }
