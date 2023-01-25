@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -41,18 +42,21 @@ fun BookRow(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.widthIn(max = widthSize.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(shapeDp.dp))
-                .clickable {
-                    onItemClicked()
-                }
-                .height(heightSize.dp)
-                .width(widthSize.dp)
-                .background(AppColors.mBackgroundSec)
-
+        Surface(
+            shape = RoundedCornerShape(shapeDp.dp),
+            elevation = 4.dp
         ) {
-            content()
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        onItemClicked()
+                    }
+                    .height(heightSize.dp)
+                    .width(widthSize.dp)
+                    .background(AppColors.mBackgroundSec))
+            {
+                content()
+            }
         }
 
         if (isForYou) {

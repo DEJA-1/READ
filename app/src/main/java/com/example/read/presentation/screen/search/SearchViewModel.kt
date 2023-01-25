@@ -1,4 +1,4 @@
-package com.example.read.presentation
+package com.example.read.presentation.screen.search
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val repository: BookRepository,
 ) : ViewModel() {
 

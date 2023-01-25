@@ -33,6 +33,7 @@ fun MyButton(
     contentPadding: Int = 15,
     onButtonClicked: () -> Unit = {}
 ) {
+
     Box(
         modifier = modifier
             .fillMaxWidth()

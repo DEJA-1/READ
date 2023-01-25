@@ -33,7 +33,7 @@ import com.example.read.presentation.screen.home.HomeViewModel
 fun CurrentlyReadingSection(
     context: Context = LocalContext.current,
     viewModel: HomeViewModel,
-    navController: NavController
+    navController: NavController,
 ) {
 
     Column(
@@ -97,7 +97,6 @@ fun CurrentlyReadingSection(
                                 ) {
                                     navController.navigate(Screen.Rate.route)
                                 }
-
 
                             }
 
