@@ -22,7 +22,7 @@ import com.example.read.util.gradient
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: HomeViewModel,
 ) {
 
     val context = LocalContext.current

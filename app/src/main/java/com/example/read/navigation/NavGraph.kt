@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.search.SearchViewModel
 import com.example.read.presentation.screen.details.DetailsScreen
 import com.example.read.presentation.screen.home.HomeScreen
@@ -19,6 +20,7 @@ import com.example.read.presentation.screen.search.SearchScreen
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
+    val commonViewModel: CommonViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -28,7 +30,7 @@ fun NavGraph() {
             route = Screen.Home.route
         ) {
             val homeViewModel: HomeViewModel = viewModel()
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, viewModel = homeViewModel)
         }
 
         composable(
@@ -42,13 +44,13 @@ fun NavGraph() {
             route = Screen.Search.route
         ) {
             val searchViewModel = hiltViewModel<SearchViewModel>()
-            SearchScreen(navController = navController, viewModel = searchViewModel)
+            SearchScreen(navController = navController, viewModel = searchViewModel, commonViewModel = commonViewModel)
         }
 
         composable(
             route = Screen.Details.route
         ) {
-            DetailsScreen(navController = navController)
+            DetailsScreen(navController = navController, commonViewModel = commonViewModel)
         }
 
         composable(

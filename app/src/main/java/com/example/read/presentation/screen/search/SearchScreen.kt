@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.example.read.commons.AppColors
+import com.example.read.navigation.Screen
+import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.search.components.SearchBookRow
 import com.example.read.util.gradient
 
@@ -20,6 +22,7 @@ import com.example.read.util.gradient
 fun SearchScreen(
     navController: NavController,
     viewModel: SearchViewModel,
+    commonViewModel: CommonViewModel
 ) {
 
     val bookList = viewModel.bookList.value.items
@@ -46,7 +49,10 @@ fun SearchScreen(
                         SearchBookRow(
                             context = context,
                             book = book,
-                        )
+                        ) {
+                            commonViewModel.updateCurrentBook(book)
+                            navController.navigate(Screen.Details.route)
+                        }
                     }
                 }
 
