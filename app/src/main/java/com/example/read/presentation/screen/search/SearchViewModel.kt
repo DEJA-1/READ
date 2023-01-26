@@ -20,13 +20,14 @@ class SearchViewModel @Inject constructor(
         getAllBooks("business")
     }
 
-    val isLoading = mutableStateOf(true)
+    private val _isLoading = mutableStateOf(false)
+    val isLoading = _isLoading
+
     private val errorMessage = mutableStateOf("")
     val bookList = mutableStateOf(MyItems(listOf()))
 
     fun getAllBooks(searchQuery: String) {
         viewModelScope.launch {
-
             val result = repository.getBooks(searchQuery)
 
             if (searchQuery.isEmpty()) {
@@ -36,12 +37,12 @@ class SearchViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     bookList.value = result.data!!
-                    isLoading.value = false
+                    _isLoading.value = false
                 }
 
                 is Resource.Error -> {
                     errorMessage.value = result.message!!
-                    isLoading.value = false
+                    _isLoading.value = false
                 }
 
                 else -> {}
@@ -49,4 +50,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun changeLoadingState() {
+        _isLoading.value = !_isLoading.value
+    }
 }

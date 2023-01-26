@@ -1,11 +1,8 @@
 package com.example.read.presentation.common_components
 
-import android.util.Log
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -15,10 +12,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import com.example.read.commons.AppColors
-import com.example.read.presentation.screen.login.LoginViewModel
 
 @Composable
 fun TextInputField(
@@ -37,7 +31,6 @@ fun TextInputField(
     isPassword: Boolean = false,
     trailingIcon: @Composable() () -> Unit
 ) {
-
     val visualTransformation = if (isPassword)
         PasswordVisualTransformation()
     else
@@ -49,9 +42,6 @@ fun TextInputField(
         modifier = modifier,
         singleLine = isSingleLane,
         trailingIcon = trailingIcon,
-//        {
-//
-//        },
         enabled = enabled,
         label = { Text(text = label) },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
