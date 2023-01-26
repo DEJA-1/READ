@@ -28,7 +28,6 @@ import com.example.read.navigation.Screen
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.home.HomeViewModel
 
-@Preview
 @Composable
 fun CurrentlyReadingSection(
     context: Context = LocalContext.current,
@@ -77,7 +76,7 @@ fun CurrentlyReadingSection(
                                         .fillMaxWidth(0.7f)
                                         .fillMaxHeight(0.2f)
                                         .clip(RoundedCornerShape(12.dp)),
-                                    text = "MARK AS READ",
+                                    text = "READ",
                                     fontSize = 12,
                                     contentPadding = 8
                                 ) {

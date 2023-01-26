@@ -50,7 +50,7 @@ fun YourCollectionSection(
         BookRow(
             shapeDp = 12,
             heightSize = 150,
-            widthSize = 100,
+            widthSize = 105,
             isForYou = true,
             onItemClicked = { navController.navigate(Screen.Rate.route) }
         ) {

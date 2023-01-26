@@ -1,5 +1,6 @@
 package com.example.read.presentation.screen.search
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,9 +15,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val repository: BookRepository,
 ) : ViewModel() {
-
     init {
-        getAllBooks("money")
+        getAllBooks("business")
     }
 
     val isLoading = mutableStateOf(true)
@@ -47,5 +47,4 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
-
 }

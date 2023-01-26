@@ -15,7 +15,7 @@ data class VolumeInfo(
     val infoLink: String,
     val language: String,
     val maturityRating: String,
-    val pageCount: Int,
+    val pageCount: Int?,
     val panelizationSummary: PanelizationSummary,
     val previewLink: String,
     val printType: String,

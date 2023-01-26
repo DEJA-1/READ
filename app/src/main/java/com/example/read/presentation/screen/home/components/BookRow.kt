@@ -1,9 +1,7 @@
 package com.example.read.presentation.screen.home.components
 
 import android.graphics.drawable.shapes.Shape
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -31,8 +29,8 @@ import com.example.read.util.gradient
 @Composable
 fun BookRow(
     shapeDp: Int = 12,
-    heightSize: Int = 200,
-    widthSize: Int = 150,
+    heightSize: Int = 170,
+    widthSize: Int = 120,
     isForYou: Boolean = false,
     onItemClicked: () -> Unit = {},
     content: @Composable() () -> Unit,
@@ -44,7 +42,8 @@ fun BookRow(
     ) {
         Surface(
             shape = RoundedCornerShape(shapeDp.dp),
-            elevation = 4.dp
+            elevation = 4.dp,
+            modifier = Modifier.border(2.dp, color = AppColors.mMain, shape = RoundedCornerShape(shapeDp.dp))
         ) {
             Box(
                 modifier = Modifier

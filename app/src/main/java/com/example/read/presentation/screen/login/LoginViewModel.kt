@@ -86,16 +86,6 @@ class LoginViewModel(
             .add(user)
     }
 
-    fun handleErrorLogin(toast: Toast? = null) {
-        _isError.value = !_isError.value
-        toast?.show()
-    }
-
-    fun handleErrorSignUp(toast: Toast? = null) {
-        _isErrorSignUp.value = !_isErrorSignUp.value
-        toast?.show()
-    }
-
     fun handleSingUp() {
         _isSignUp.value = !_isSignUp.value
     }
