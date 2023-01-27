@@ -81,6 +81,7 @@ fun CurrentlyReadingSection(
                     ) {
 
                         Row {
+
                             AnimatedVisibility(visible = isExpanded.value) {
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
@@ -113,42 +114,41 @@ fun CurrentlyReadingSection(
                                             text = "RATE",
                                             fontSize = 12,
                                             contentPadding = 8
-                                        )
-                                        commonViewModel.currentBook.value = book
-                                        navController.navigate(Screen.Rate.route)
+                                        ) {
+                                            commonViewModel.currentBook.value = book
+                                            navController.navigate(Screen.Rate.route)
+                                        }
                                     }
 
                                 }
 
                             }
 
+                            AsyncImage(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(12.dp)),
+                                model = ImageRequest.Builder(context)
+                                    .data(
+                                        if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
+                                            book.volumeInfo?.imageLinks?.thumbnail
+                                        else
+                                            com.example.read.R.drawable.imagenotfound
+                                    )
+                                    .crossfade(true)
+                                    .build(),
+                                contentScale = ContentScale.FillBounds,
+                                contentDescription = "Book image"
+                            )
                         }
-                        AsyncImage(
+
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .clip(RoundedCornerShape(12.dp)),
-                            model = ImageRequest.Builder(context)
-                                .data(
-                                    if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
-                                        book.volumeInfo?.imageLinks?.thumbnail
-                                    else
-                                        com.example.read.R.drawable.imagenotfound
-                                )
-                                .crossfade(true)
-                                .build(),
-                            contentScale = ContentScale.FillBounds,
-                            contentDescription = "Book image"
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.1f)
+                                .background(if (isRead.value) AppColors.mGreen else AppColors.mRed)
                         )
-
                     }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.1f)
-                            .background(if (isRead.value) AppColors.mGreen else AppColors.mRed)
-                    )
-
                 }
             }
         }

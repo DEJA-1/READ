@@ -39,11 +39,9 @@ fun TopSection(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
-
     ) {
 
         Column() {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
