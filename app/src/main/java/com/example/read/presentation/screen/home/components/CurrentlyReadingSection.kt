@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,12 +26,15 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.MyItem
 import com.example.read.navigation.Screen
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.home.HomeViewModel
+import com.example.read.util.isValid
 
 @Composable
 fun CurrentlyReadingSection(
+    userBooks: List<MyItem>,
     context: Context = LocalContext.current,
     viewModel: HomeViewModel,
     navController: NavController,
@@ -50,79 +55,89 @@ fun CurrentlyReadingSection(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        BookRow(
-            onItemClicked = { viewModel.changeCardExpandedState() }
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(AppColors.mBackgroundSec),
-                contentAlignment = BottomCenter
-            ) {
+        LazyRow() {
+            items(userBooks) { book ->
+                BookRow(
+                    userBooks = userBooks,
+                    onItemClicked = { viewModel.changeCardExpandedState() }
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(AppColors.mBackgroundSec),
+                        contentAlignment = BottomCenter
+                    ) {
 
-                Row {
-                    AnimatedVisibility(visible = viewModel.isCardExpanded.value) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Center
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                MyButton(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.7f)
-                                        .fillMaxHeight(0.2f)
-                                        .clip(RoundedCornerShape(12.dp)),
-                                    text = "READ",
-                                    fontSize = 12,
-                                    contentPadding = 8
+                        Row {
+                            AnimatedVisibility(visible = viewModel.isCardExpanded.value) {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Center
                                 ) {
-                                    viewModel.changeReadState()
-                                    viewModel.changeCardExpandedState()
-                                }
-                                Spacer(modifier = Modifier.height(4.dp))
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        MyButton(
+                                            modifier = Modifier
+                                                .fillMaxWidth(0.7f)
+                                                .fillMaxHeight(0.2f)
+                                                .clip(RoundedCornerShape(12.dp)),
+                                            text = "READ",
+                                            fontSize = 12,
+                                            contentPadding = 8
+                                        ) {
+                                            viewModel.changeReadState()
+                                            viewModel.changeCardExpandedState()
+                                        }
+                                        Spacer(modifier = Modifier.height(4.dp))
 
-                                MyButton(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.7f)
-                                        .fillMaxHeight(0.24f)
-                                        .clip(RoundedCornerShape(12.dp)),
-                                    text = "RATE",
-                                    fontSize = 12,
-                                    contentPadding = 8
-                                ) {
-                                    navController.navigate(Screen.Rate.route)
+                                        MyButton(
+                                            modifier = Modifier
+                                                .fillMaxWidth(0.7f)
+                                                .fillMaxHeight(0.24f)
+                                                .clip(RoundedCornerShape(12.dp)),
+                                            text = "RATE",
+                                            fontSize = 12,
+                                            contentPadding = 8
+                                        ) {
+                                            navController.navigate(Screen.Rate.route)
+                                        }
+
+                                    }
+
                                 }
 
                             }
+                            AsyncImage(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(12.dp)),
+                                model = ImageRequest.Builder(context)
+                                    .data(
+                                        if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
+                                            book.volumeInfo?.imageLinks?.thumbnail
+                                        else
+                                            com.example.read.R.drawable.imagenotfound
+                                    )
+                                    .crossfade(true)
+                                    .build(),
+                                contentScale = ContentScale.FillBounds,
+                                contentDescription = "Book image"
+                            )
 
                         }
 
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.1f)
+                                .background(if (viewModel.isBookRead.value) AppColors.mGreen else AppColors.mRed)
+                        )
+
                     }
-                    AsyncImage(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(12.dp)),
-                        model = ImageRequest.Builder(context)
-                            .data("http://books.google.com/books/content?id=pZ5iAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api")
-                            .crossfade(true)
-                            .build(),
-                        contentScale = ContentScale.FillBounds,
-                        contentDescription = "Book image"
-                    )
-
                 }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.1f)
-                        .background(if (viewModel.isBookRead.value) AppColors.mGreen else AppColors.mRed)
-                )
-
             }
         }
     }

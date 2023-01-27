@@ -51,7 +51,7 @@ fun YourCollectionSection(
             shapeDp = 12,
             heightSize = 150,
             widthSize = 105,
-            isForYou = true,
+            isYourCollection = true,
             onItemClicked = { navController.navigate(Screen.Rate.route) }
         ) {
             Box(

@@ -24,13 +24,13 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Search.route
+        startDestination = Screen.Home.route
     ) {
         composable(
             route = Screen.Home.route
         ) {
             val homeViewModel: HomeViewModel = viewModel()
-            HomeScreen(navController = navController, viewModel = homeViewModel)
+            HomeScreen(navController = navController, viewModel = homeViewModel, commonViewModel = commonViewModel)
         }
 
         composable(

@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.read.commons.Resource
+import com.example.read.domain.model.MyCategory
 import com.example.read.domain.model.MyItem
 import com.example.read.domain.model.MyItems
+import com.example.read.domain.model.loadCategories
 import com.example.read.domain.repository.BookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +22,9 @@ class SearchViewModel @Inject constructor(
         getAllBooks("business")
     }
 
-    private val _isLoading = mutableStateOf(false)
+    val categoryList: List<MyCategory> = loadCategories()
+
+    private val _isLoading = mutableStateOf(true)
     val isLoading = _isLoading
 
     private val errorMessage = mutableStateOf("")

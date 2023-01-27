@@ -12,7 +12,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.MyItem
 import com.example.read.navigation.Screen
+import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.home.components.CurrentlyReadingSection
 import com.example.read.presentation.screen.home.components.Header
@@ -23,6 +25,7 @@ import com.example.read.util.gradient
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
+    commonViewModel: CommonViewModel
 ) {
 
     val context = LocalContext.current
@@ -42,7 +45,12 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            CurrentlyReadingSection(context = context, viewModel = viewModel, navController = navController)
+            CurrentlyReadingSection(
+                context = context,
+                viewModel = viewModel,
+                navController = navController,
+                userBooks = listOf(commonViewModel.currentBook.value)
+            )
 
             MyButton(
                 text = "SEARCH", modifier = Modifier

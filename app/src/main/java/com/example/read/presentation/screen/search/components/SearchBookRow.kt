@@ -112,7 +112,8 @@ fun SearchBookRow(
                             fontWeight = FontWeight.Normal,
                             fontStyle = FontStyle.Normal,
                             fontSize = 13.sp,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            maxLines = 1
                         )
 
                         Text(
@@ -121,7 +122,8 @@ fun SearchBookRow(
                             fontWeight = FontWeight.Normal,
                             fontStyle = FontStyle.Normal,
                             fontSize = 13.sp,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            maxLines = 1
                         )
 
                         Text(
