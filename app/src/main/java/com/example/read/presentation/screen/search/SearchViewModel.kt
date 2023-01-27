@@ -19,7 +19,7 @@ class SearchViewModel @Inject constructor(
     private val repository: BookRepository,
 ) : ViewModel() {
     init {
-        getAllBooks("business")
+        getAllBooks("Law")
     }
 
     val categoryList: List<MyCategory> = loadCategories()

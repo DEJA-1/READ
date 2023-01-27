@@ -44,11 +44,15 @@ fun TopSection(
 
         Column() {
 
-            Row() {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.45f)
+            ) {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth(0.55f)
-                        .fillMaxHeight(0.45f)
+                        .fillMaxHeight()
                         .border(2.dp, Color.Black),
                     model = ImageRequest.Builder(context)
                         .data(
@@ -97,48 +101,53 @@ fun TopSection(
                         maxLines = 1
                     )
 
-                    Spacer(modifier = Modifier.height(70.dp))
-
-                    MyButton(
-                        text = "SAVE",
-                        contentPadding = 8,
-                        modifier = Modifier.padding(
-                            top = 8.dp,
-                            bottom = 8.dp,
-                            end = 8.dp,
-                            start = 16.dp
-                        )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.Bottom
                     ) {
-                        val bookFb: BookFB = BookFB(
-                            title = book.volumeInfo?.title,
-                            authors = book.volumeInfo?.authors.toString(),
-                            categories = book.volumeInfo?.categories.toString(),
-                            description = book.volumeInfo?.description,
-                            pageCount = book.volumeInfo?.pageCount,
-                            image = book.volumeInfo?.imageLinks?.thumbnail,
-                            publishedDate = book.volumeInfo?.publishedDate,
-                            rating = 0.0,
-                            bookId = book.id,
-                            userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
-                        )
-                        viewModel.addToFirebase(bookFb)
-                        Toast.makeText(context, "Book added successfully", Toast.LENGTH_SHORT).show()
-                        navController.popBackStack()
-                    }
-                    MyButton(
-                        text = "CANCEL",
-                        contentPadding = 8,
-                        modifier = Modifier.padding(
-                            top = 4.dp,
-                            bottom = 8.dp,
-                            end = 8.dp,
-                            start = 16.dp
-                        )
-                    ) {
-                        navController.popBackStack()
-                    }
+                        MyButton(
+                            text = "SAVE",
+                            contentPadding = 8,
+                            modifier = Modifier.padding(
+                                bottom = 8.dp,
+                                end = 8.dp,
+                                start = 16.dp
+                            )
 
+                        ) {
+                            val bookFb: BookFB = BookFB(
+                                title = book.volumeInfo?.title,
+                                authors = book.volumeInfo?.authors.toString(),
+                                categories = book.volumeInfo?.categories.toString(),
+                                description = book.volumeInfo?.description,
+                                pageCount = book.volumeInfo?.pageCount,
+                                image = book.volumeInfo?.imageLinks?.thumbnail,
+                                publishedDate = book.volumeInfo?.publishedDate,
+                                rating = 0.0,
+                                bookId = book.id,
+                                userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                            )
+                            viewModel.addToFirebase(bookFb)
+                            Toast.makeText(context, "Book added successfully", Toast.LENGTH_SHORT)
+                                .show()
+                            navController.popBackStack()
+                        }
+                        MyButton(
+                            text = "CANCEL",
+                            contentPadding = 8,
+                            modifier = Modifier.padding(
+                                bottom = 16.dp,
+                                end = 8.dp,
+                                start = 16.dp
+                            )
+                        ) {
+                            navController.popBackStack()
+                        }
+
+                    }
                 }
+
             }
 
             LazyColumn() {
