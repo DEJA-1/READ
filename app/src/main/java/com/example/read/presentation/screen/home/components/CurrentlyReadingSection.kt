@@ -9,6 +9,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
@@ -28,6 +31,7 @@ import coil.request.ImageRequest
 import com.example.read.commons.AppColors
 import com.example.read.domain.model.MyItem
 import com.example.read.navigation.Screen
+import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.home.HomeViewModel
 import com.example.read.util.isValid
@@ -36,9 +40,17 @@ import com.example.read.util.isValid
 fun CurrentlyReadingSection(
     userBooks: List<MyItem>,
     context: Context = LocalContext.current,
-    viewModel: HomeViewModel,
-    navController: NavController,
+    commonViewModel: CommonViewModel,
+    navController: NavController
 ) {
+
+    val isExpanded = remember {
+        mutableStateOf(false)
+    }
+
+    val isRead = rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier.padding()
@@ -59,7 +71,7 @@ fun CurrentlyReadingSection(
             items(userBooks) { book ->
                 BookRow(
                     userBooks = userBooks,
-                    onItemClicked = { viewModel.changeCardExpandedState() }
+                    onItemClicked = { isExpanded.value = !isExpanded.value }
                 ) {
                     Box(
                         modifier = Modifier
@@ -69,7 +81,7 @@ fun CurrentlyReadingSection(
                     ) {
 
                         Row {
-                            AnimatedVisibility(visible = viewModel.isCardExpanded.value) {
+                            AnimatedVisibility(visible = isExpanded.value) {
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
                                     contentAlignment = Center
@@ -88,8 +100,8 @@ fun CurrentlyReadingSection(
                                             fontSize = 12,
                                             contentPadding = 8
                                         ) {
-                                            viewModel.changeReadState()
-                                            viewModel.changeCardExpandedState()
+                                            isRead.value = !isRead.value
+                                            isExpanded.value = !isExpanded.value
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))
 
@@ -101,42 +113,42 @@ fun CurrentlyReadingSection(
                                             text = "RATE",
                                             fontSize = 12,
                                             contentPadding = 8
-                                        ) {
-                                            navController.navigate(Screen.Rate.route)
-                                        }
-
+                                        )
+                                        commonViewModel.currentBook.value = book
+                                        navController.navigate(Screen.Rate.route)
                                     }
 
                                 }
 
                             }
-                            AsyncImage(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(RoundedCornerShape(12.dp)),
-                                model = ImageRequest.Builder(context)
-                                    .data(
-                                        if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
-                                            book.volumeInfo?.imageLinks?.thumbnail
-                                        else
-                                            com.example.read.R.drawable.imagenotfound
-                                    )
-                                    .crossfade(true)
-                                    .build(),
-                                contentScale = ContentScale.FillBounds,
-                                contentDescription = "Book image"
-                            )
 
                         }
-
-                        Box(
+                        AsyncImage(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(0.1f)
-                                .background(if (viewModel.isBookRead.value) AppColors.mGreen else AppColors.mRed)
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(12.dp)),
+                            model = ImageRequest.Builder(context)
+                                .data(
+                                    if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
+                                        book.volumeInfo?.imageLinks?.thumbnail
+                                    else
+                                        com.example.read.R.drawable.imagenotfound
+                                )
+                                .crossfade(true)
+                                .build(),
+                            contentScale = ContentScale.FillBounds,
+                            contentDescription = "Book image"
                         )
 
                     }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.1f)
+                            .background(if (isRead.value) AppColors.mGreen else AppColors.mRed)
+                    )
+
                 }
             }
         }

@@ -3,7 +3,9 @@ package com.example.read.di
 import com.example.read.commons.Constants
 import com.example.read.data.network.ReadApi
 import com.example.read.data.repository.BookRepositoryImpl
+import com.example.read.data.repository.FirebaseRepositoryImpl
 import com.example.read.domain.repository.BookRepository
+import com.example.read.domain.repository.FirebaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,5 +45,10 @@ object AppModule {
         return BookRepositoryImpl(api)
     }
 
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository() : FirebaseRepository {
+        return FirebaseRepositoryImpl()
+    }
 
 }

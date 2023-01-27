@@ -1,6 +1,7 @@
 package com.example.read.presentation.screen.details.components
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,15 +21,19 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
 import com.example.read.presentation.common_components.MyButton
+import com.example.read.presentation.screen.details.DetailsViewModel
 import com.example.read.util.isValid
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun TopSection(
     context: Context,
     book: MyItem,
-    navController: NavController
+    navController: NavController,
+    viewModel: DetailsViewModel
 ) {
     Box(
         modifier = Modifier
@@ -65,16 +70,16 @@ fun TopSection(
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.ExtraBold,
                         fontStyle = FontStyle.Italic,
-                        fontSize = 32.sp,
+                        fontSize = 26.sp,
                         textAlign = TextAlign.Start,
-                        maxLines = 2
+                        maxLines = 3
                     )
 
                     Text(
                         modifier = Modifier.padding(start = 16.dp, end = 2.dp),
                         text = if (isValid(book.volumeInfo?.authors?.first())) "${book.volumeInfo?.authors?.first()}" else "Unknown",
                         color = AppColors.mTextWhite,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Light,
                         fontStyle = FontStyle.Normal,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Start,
@@ -85,14 +90,14 @@ fun TopSection(
                         modifier = Modifier.padding(start = 16.dp, end = 2.dp),
                         text = if (isValid(book.volumeInfo?.publishedDate)) book.volumeInfo?.publishedDate.toString() else "Unknown",
                         color = AppColors.mTextWhite,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Light,
                         fontStyle = FontStyle.Normal,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Start,
                         maxLines = 1
                     )
 
-                    Spacer(modifier = Modifier.height(60.dp))
+                    Spacer(modifier = Modifier.height(70.dp))
 
                     MyButton(
                         text = "SAVE",
@@ -104,13 +109,27 @@ fun TopSection(
                             start = 16.dp
                         )
                     ) {
-
+                        val bookFb: BookFB = BookFB(
+                            title = book.volumeInfo?.title,
+                            authors = book.volumeInfo?.authors.toString(),
+                            categories = book.volumeInfo?.categories.toString(),
+                            description = book.volumeInfo?.description,
+                            pageCount = book.volumeInfo?.pageCount,
+                            image = book.volumeInfo?.imageLinks?.thumbnail,
+                            publishedDate = book.volumeInfo?.publishedDate,
+                            rating = 0.0,
+                            bookId = book.id,
+                            userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                        )
+                        viewModel.addToFirebase(bookFb)
+                        Toast.makeText(context, "Book added successfully", Toast.LENGTH_SHORT).show()
+                        navController.popBackStack()
                     }
                     MyButton(
                         text = "CANCEL",
                         contentPadding = 8,
                         modifier = Modifier.padding(
-                            top = 8.dp,
+                            top = 4.dp,
                             bottom = 8.dp,
                             end = 8.dp,
                             start = 16.dp
@@ -131,7 +150,7 @@ fun TopSection(
                             end = 4.dp,
                             top = 16.dp
                         ),
-                        text = book.volumeInfo?.description.toString(),
+                        text = if (isValid(book.volumeInfo?.description)) book.volumeInfo?.description.toString() else "There is no description for this book.",
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.Bold,
                         fontStyle = FontStyle.Italic,

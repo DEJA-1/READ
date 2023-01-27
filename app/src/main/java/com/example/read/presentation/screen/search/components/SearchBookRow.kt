@@ -40,6 +40,7 @@ fun SearchBookRow(
     val isExpanded = remember {
         mutableStateOf(false)
     }
+
     Surface(
         modifier = Modifier
             .padding(8.dp)

@@ -47,9 +47,9 @@ fun HomeScreen(
 
             CurrentlyReadingSection(
                 context = context,
-                viewModel = viewModel,
                 navController = navController,
-                userBooks = listOf(commonViewModel.currentBook.value)
+                userBooks = listOf(commonViewModel.currentBook.value),
+                commonViewModel = commonViewModel
             )
 
             MyButton(

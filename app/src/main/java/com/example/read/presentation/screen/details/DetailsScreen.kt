@@ -15,7 +15,8 @@ import com.example.read.util.gradient
 @Composable
 fun DetailsScreen(
     navController: NavController,
-    commonViewModel: CommonViewModel
+    commonViewModel: CommonViewModel,
+    viewModel: DetailsViewModel
 ) {
     val context = LocalContext.current
 
@@ -35,7 +36,8 @@ fun DetailsScreen(
         TopSection(
             context = context,
             navController = navController,
-            book = commonViewModel.currentBook.value
+            book = commonViewModel.currentBook.value,
+            viewModel = viewModel
         )
     }
 }
