@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.toBookFB
 import com.example.read.navigation.Screen
 import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.search.components.ForYouSection
@@ -61,7 +62,7 @@ fun SearchScreen(
                             context = context,
                             book = book,
                         ) {
-                            commonViewModel.updateCurrentBook(book)
+                            commonViewModel.updateCurrentBook(book.toBookFB())
                             navController.navigate(Screen.Details.route)
                         }
                     }

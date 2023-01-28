@@ -3,6 +3,7 @@ package com.example.read.presentation.screen.home.components
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -29,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
 import com.example.read.navigation.Screen
 import com.example.read.presentation.CommonViewModel
@@ -38,20 +40,11 @@ import com.example.read.util.isValid
 
 @Composable
 fun CurrentlyReadingSection(
-    userBooks: List<MyItem>,
+    userBooks: List<BookFB>,
     context: Context = LocalContext.current,
     commonViewModel: CommonViewModel,
     navController: NavController
 ) {
-
-    val isExpanded = remember {
-        mutableStateOf(false)
-    }
-
-    val isRead = rememberSaveable {
-        mutableStateOf(false)
-    }
-
     Column(
         modifier = Modifier.padding()
     ) {
@@ -70,9 +63,19 @@ fun CurrentlyReadingSection(
         LazyRow() {
             items(userBooks) { book ->
                 BookRow(
+                    modifier = Modifier.padding(4.dp),
                     userBooks = userBooks,
-                    onItemClicked = { isExpanded.value = !isExpanded.value }
+                    onItemClicked = {  }
                 ) {
+
+                    val isExpanded = remember {
+                        mutableStateOf(false)
+                    }
+
+                    val isRead = rememberSaveable {
+                        mutableStateOf(false)
+                    }
+
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -84,7 +87,8 @@ fun CurrentlyReadingSection(
 
                             AnimatedVisibility(visible = isExpanded.value) {
                                 Box(
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = Modifier.fillMaxSize()
+                                        .clickable { isExpanded.value = !isExpanded.value },
                                     contentAlignment = Center
                                 ) {
                                     Column(
@@ -127,11 +131,12 @@ fun CurrentlyReadingSection(
                             AsyncImage(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clip(RoundedCornerShape(12.dp)),
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .clickable { isExpanded.value = !isExpanded.value },
                                 model = ImageRequest.Builder(context)
                                     .data(
-                                        if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
-                                            book.volumeInfo?.imageLinks?.thumbnail
+                                        if (isValid(book.image))
+                                            book.image
                                         else
                                             com.example.read.R.drawable.imagenotfound
                                     )

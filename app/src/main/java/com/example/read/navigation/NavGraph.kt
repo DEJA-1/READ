@@ -25,12 +25,12 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.Login.route
     ) {
         composable(
             route = Screen.Home.route
         ) {
-            val homeViewModel: HomeViewModel = viewModel()
+            val homeViewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(navController = navController, viewModel = homeViewModel, commonViewModel = commonViewModel)
         }
 

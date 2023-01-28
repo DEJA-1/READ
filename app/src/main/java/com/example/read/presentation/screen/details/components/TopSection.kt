@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun TopSection(
     context: Context,
-    book: MyItem,
+    book: BookFB,
     navController: NavController,
     viewModel: DetailsViewModel
 ) {
@@ -54,8 +54,8 @@ fun TopSection(
                         .border(2.dp, Color.Black),
                     model = ImageRequest.Builder(context)
                         .data(
-                            if (isValid(book.volumeInfo?.imageLinks?.thumbnail))
-                                book.volumeInfo?.imageLinks?.thumbnail
+                            if (isValid(book.image))
+                                book.image
                             else
                                 com.example.read.R.drawable.imagenotfound
                         )
@@ -68,7 +68,7 @@ fun TopSection(
                 Column {
                     Text(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                        text = book.volumeInfo?.title.toString(),
+                        text = book.title.toString(),
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.ExtraBold,
                         fontStyle = FontStyle.Italic,
@@ -79,7 +79,7 @@ fun TopSection(
 
                     Text(
                         modifier = Modifier.padding(start = 16.dp, end = 2.dp),
-                        text = if (isValid(book.volumeInfo?.authors?.first())) "${book.volumeInfo?.authors?.first()}" else "Unknown",
+                        text = if (isValid(book.authors)) "${book.authors}" else "Unknown",
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.Light,
                         fontStyle = FontStyle.Normal,
@@ -90,7 +90,7 @@ fun TopSection(
 
                     Text(
                         modifier = Modifier.padding(start = 16.dp, end = 2.dp),
-                        text = if (isValid(book.volumeInfo?.publishedDate)) book.volumeInfo?.publishedDate.toString() else "Unknown",
+                        text = if (isValid(book.publishedDate)) book.publishedDate.toString() else "Unknown",
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.Light,
                         fontStyle = FontStyle.Normal,
@@ -115,13 +115,13 @@ fun TopSection(
 
                         ) {
                             val bookFb: BookFB = BookFB(
-                                title = book.volumeInfo?.title,
-                                authors = book.volumeInfo?.authors.toString(),
-                                categories = book.volumeInfo?.categories.toString(),
-                                description = book.volumeInfo?.description,
-                                pageCount = book.volumeInfo?.pageCount,
-                                image = book.volumeInfo?.imageLinks?.thumbnail,
-                                publishedDate = book.volumeInfo?.publishedDate,
+                                title = book.title,
+                                authors = book.authors.toString(),
+                                categories = book.categories.toString(),
+                                description = book.description,
+                                pageCount = book.pageCount,
+                                image = book.image,
+                                publishedDate = book.publishedDate,
                                 rating = 0.0,
                                 bookId = book.id,
                                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
@@ -157,7 +157,7 @@ fun TopSection(
                             end = 4.dp,
                             top = 16.dp
                         ),
-                        text = if (isValid(book.volumeInfo?.description)) book.volumeInfo?.description.toString() else "There is no description for this book.",
+                        text = if (isValid(book.description)) book.description.toString() else "There is no description for this book.",
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.Bold,
                         fontStyle = FontStyle.Italic,

@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,13 +21,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyCategory
 import com.example.read.domain.model.MyItem
 
 @Composable
 fun BookRow(
     modifier: Modifier = Modifier,
-    userBooks: List<MyItem> = emptyList<MyItem>(),
+    userBooks: List<BookFB> = emptyList<BookFB>(),
     category: MyCategory = MyCategory("", ""),
     shapeDp: Int = 12,
     heightSize: Int = 170,

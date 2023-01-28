@@ -6,6 +6,7 @@ import com.example.read.data.repository.BookRepositoryImpl
 import com.example.read.data.repository.FirebaseRepositoryImpl
 import com.example.read.domain.repository.BookRepository
 import com.example.read.domain.repository.FirebaseRepository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,7 +49,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirebaseRepository() : FirebaseRepository {
-        return FirebaseRepositoryImpl()
+        return FirebaseRepositoryImpl(queryBook = FirebaseFirestore.getInstance().collection("books"))
     }
 
 }
