@@ -64,10 +64,8 @@ fun CurrentlyReadingSection(
             items(userBooks) { book ->
                 BookRow(
                     modifier = Modifier.padding(4.dp),
-                    userBooks = userBooks,
                     onItemClicked = {  }
                 ) {
-
                     val isExpanded = remember {
                         mutableStateOf(false)
                     }

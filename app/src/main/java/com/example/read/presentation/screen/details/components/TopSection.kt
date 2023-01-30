@@ -33,7 +33,8 @@ fun TopSection(
     context: Context,
     book: BookFB,
     navController: NavController,
-    viewModel: DetailsViewModel
+    viewModel: DetailsViewModel,
+
 ) {
     Box(
         modifier = Modifier

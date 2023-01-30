@@ -10,13 +10,14 @@ import androidx.navigation.NavController
 import com.example.read.commons.AppColors
 import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.details.components.TopSection
+import com.example.read.presentation.screen.home.HomeViewModel
 import com.example.read.util.gradient
 
 @Composable
 fun DetailsScreen(
     navController: NavController,
     commonViewModel: CommonViewModel,
-    viewModel: DetailsViewModel
+    viewModel: DetailsViewModel,
 ) {
     val context = LocalContext.current
 

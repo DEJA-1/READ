@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -21,7 +22,10 @@ import com.example.read.commons.AppColors
 
 @Composable
 fun Header(
+    modifier: Modifier = Modifier,
     nick: String = "Test",
+    isProfile: Boolean = false,
+    icon: ImageVector = Icons.Filled.AccountCircle,
     onIconClick: () -> Unit
 ) {
 
@@ -32,16 +36,19 @@ fun Header(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 buildAnnotatedString {
-                    withStyle(
-                        SpanStyle(
-                            color = AppColors.mTextWhite,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 26.sp,
-                        )
-                    ) {
-                        append("Hello, ")
-                    }
 
+                    if (!isProfile) {
+                        withStyle(
+                            SpanStyle(
+                                color = AppColors.mTextWhite,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 26.sp,
+                            )
+                        ) {
+                            append("Hello, ")
+                        }
+
+                    }
                     withStyle(
                         SpanStyle(
                             color = AppColors.mMain,
@@ -55,20 +62,22 @@ fun Header(
                 }
             )
 
-            Text(
-                text = "Happy reading!",
-                color = AppColors.mTextWhite,
-                fontWeight = FontWeight.Light,
-                fontSize = 16.sp,
-            )
+            if (!isProfile) {
+                Text(
+                    text = "Happy reading!",
+                    color = AppColors.mTextWhite,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 16.sp,
+                )
+            }
 
         }
         Icon(
-            modifier = Modifier.size(64.dp)
+            modifier = modifier.size(64.dp)
                 .clickable {
                            onIconClick()
                 },
-            imageVector = Icons.Filled.AccountCircle,
+            imageVector = icon,
             contentDescription = "account icon",
             tint = AppColors.mMain
         )

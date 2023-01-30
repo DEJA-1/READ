@@ -28,7 +28,7 @@ import com.example.read.domain.model.MyItem
 @Composable
 fun BookRow(
     modifier: Modifier = Modifier,
-    userBooks: List<BookFB> = emptyList<BookFB>(),
+    book: BookFB = BookFB(),
     category: MyCategory = MyCategory("", ""),
     shapeDp: Int = 12,
     heightSize: Int = 170,
@@ -65,7 +65,7 @@ fun BookRow(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     modifier = Modifier.padding(top = 4.dp),
-                    text = "asdifsdfji s jisdfjisi jiosd fiojsiodsf ijs",
+                    text = book.title.toString(),
                     fontWeight = FontWeight.Bold,
                     fontStyle = FontStyle.Italic,
                     fontSize = 14.sp,

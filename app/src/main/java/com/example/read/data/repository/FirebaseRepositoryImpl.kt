@@ -29,7 +29,6 @@ class FirebaseRepositoryImpl @Inject constructor(
                 }
         }
     }
-
     override suspend fun getBooksFromFB(): Resource<List<BookFB>> {
         return try {
             Resource.Loading(true)

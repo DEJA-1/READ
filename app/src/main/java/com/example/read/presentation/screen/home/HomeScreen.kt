@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -34,7 +36,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     commonViewModel: CommonViewModel
 ) {
-
     val currentUser = FirebaseAuth.getInstance().currentUser
     val context = LocalContext.current
 
@@ -43,53 +44,69 @@ fun HomeScreen(
     }
     Log.d("Test", "${userBooks}")
 
-    if (viewModel.isLoading.value) {
-        CircularProgressIndicator()
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(gradient(colors = listOf(AppColors.mBackground, AppColors.mBackgroundSec)))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(gradient(colors = listOf(AppColors.mBackground, AppColors.mBackgroundSec)))
+    ) {
+        Column(
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp)
-            ) {
 
-                Header(nick = currentUser?.email?.split('@')?.first().toString()) {
-                    navController.navigate(Screen.Profile.route)
+            Header(nick = currentUser?.email?.split('@')?.first().toString()) {
+                navController.navigate(Screen.Profile.route)
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if (userBooks.isEmpty()) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp),
+                contentAlignment = Alignment.Center) {
+                    Text(text = "The list is empty.", color = Color.DarkGray)
                 }
-
-                Spacer(modifier = Modifier.height(20.dp))
-
+            } else {
                 CurrentlyReadingSection(
                     context = context,
                     navController = navController,
                     userBooks = userBooks,
                     commonViewModel = commonViewModel
                 )
-
-                MyButton(
-                    text = "SEARCH", modifier = Modifier
-                        .padding(top = 20.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                ) {
-                    navController.navigate(Screen.Search.route)
-                }
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Divider(
-                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
-                    color = Color.DarkGray,
-                    thickness = 2.dp
-                )
-
-                YourCollectionSection(navController = navController)
             }
 
+            MyButton(
+                text = "SEARCH", modifier = Modifier
+                    .padding(top = 20.dp)
+                    .clip(RoundedCornerShape(16.dp))
+            ) {
+                navController.navigate(Screen.Search.route)
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Divider(
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                color = Color.DarkGray,
+                thickness = 2.dp
+            )
+
+            if (userBooks.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "The list is empty.", color = Color.DarkGray)
+                }
+            } else {
+                YourCollectionSection(navController = navController, bookList = userBooks)
+            }
         }
+
     }
 
-
 }
+
 

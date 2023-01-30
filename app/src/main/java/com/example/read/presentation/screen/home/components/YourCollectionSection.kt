@@ -5,6 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -26,11 +28,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.read.R
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.BookFB
 import com.example.read.navigation.Screen
 
 @Composable
 fun YourCollectionSection(
     context: Context = LocalContext.current,
+    bookList: List<BookFB>,
     navController: NavController,
 ) {
 
@@ -47,33 +51,44 @@ fun YourCollectionSection(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        BookRow(
-            shapeDp = 12,
-            heightSize = 150,
-            widthSize = 105,
-            isYourCollection = true,
-            onItemClicked = { navController.navigate(Screen.Rate.route) }
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.BottomCenter
-            ) {
+        LazyRow() {
+            items(bookList) { book ->
+                BookRow(
+                    shapeDp = 12,
+                    heightSize = 150,
+                    book = book,
+                    widthSize = 105,
+                    isYourCollection = true,
+                    onItemClicked = { navController.navigate(Screen.Rate.route) }
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
 
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    model = ImageRequest.Builder(context)
-                        .data("http://books.google.com/books/content?id=pZ5iAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api")
-                        .crossfade(true)
-                        .build(),
-                    contentScale = ContentScale.FillBounds,
-                    contentDescription = "Book image"
-                )
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            model = ImageRequest.Builder(context)
+                                .data(book.image)
+                                .crossfade(true)
+                                .build(),
+                            contentScale = ContentScale.FillBounds,
+                            contentDescription = "Book image"
+                        )
 
-                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.1f).background(AppColors.mGreen))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(0.1f)
+                                .background(AppColors.mGreen)
+                        )
+                    }
+
+                }
             }
-
         }
+
     }
 
 }
