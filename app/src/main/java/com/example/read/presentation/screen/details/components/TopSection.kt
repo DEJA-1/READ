@@ -35,7 +35,7 @@ fun TopSection(
     navController: NavController,
     viewModel: DetailsViewModel,
 
-) {
+    ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +86,8 @@ fun TopSection(
                         fontStyle = FontStyle.Normal,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Start,
-                        maxLines = 1
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip
                     )
 
                     Text(
@@ -97,7 +98,9 @@ fun TopSection(
                         fontStyle = FontStyle.Normal,
                         fontSize = 16.sp,
                         textAlign = TextAlign.Start,
-                        maxLines = 1
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip
+
                     )
 
                     Column(
@@ -124,6 +127,7 @@ fun TopSection(
                                 image = book.image,
                                 publishedDate = book.publishedDate,
                                 rating = 0.0,
+                                read = false,
                                 bookId = book.id,
                                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                             )

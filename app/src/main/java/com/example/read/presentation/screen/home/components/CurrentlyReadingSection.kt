@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -43,6 +44,7 @@ fun CurrentlyReadingSection(
     userBooks: List<BookFB>,
     context: Context = LocalContext.current,
     commonViewModel: CommonViewModel,
+    viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
     Column(
@@ -64,7 +66,7 @@ fun CurrentlyReadingSection(
             items(userBooks) { book ->
                 BookRow(
                     modifier = Modifier.padding(4.dp),
-                    onItemClicked = {  }
+                    onItemClicked = { }
                 ) {
                     val isExpanded = remember {
                         mutableStateOf(false)
@@ -85,8 +87,11 @@ fun CurrentlyReadingSection(
 
                             AnimatedVisibility(visible = isExpanded.value) {
                                 Box(
-                                    modifier = Modifier.fillMaxSize()
-                                        .clickable { isExpanded.value = !isExpanded.value },
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable {
+                                            isExpanded.value = !isExpanded.value
+                                        },
                                     contentAlignment = Center
                                 ) {
                                     Column(
@@ -105,6 +110,7 @@ fun CurrentlyReadingSection(
                                         ) {
                                             isRead.value = !isRead.value
                                             isExpanded.value = !isExpanded.value
+                                            viewModel.updateBook(context = context, book = book, isRead = isRead.value)
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))
 
@@ -149,7 +155,7 @@ fun CurrentlyReadingSection(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight(0.1f)
-                                .background(if (isRead.value) AppColors.mGreen else AppColors.mRed)
+                                .background(if (book.read!!) AppColors.mGreen else AppColors.mRed)
                         )
                     }
                 }

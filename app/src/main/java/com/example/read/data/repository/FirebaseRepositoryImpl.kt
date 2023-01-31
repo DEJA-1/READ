@@ -39,6 +39,7 @@ class FirebaseRepositoryImpl @Inject constructor(
             if (response.isNotEmpty())
                 Resource.Loading(false)
             Resource.Success(response)
+
         } catch (exception: FirebaseFirestoreException) {
             Resource.Error(exception.message.toString())
         }

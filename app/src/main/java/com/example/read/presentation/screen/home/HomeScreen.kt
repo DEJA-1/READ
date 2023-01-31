@@ -34,7 +34,7 @@ import com.google.firebase.auth.FirebaseAuth
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
-    commonViewModel: CommonViewModel
+    commonViewModel: CommonViewModel,
 ) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val context = LocalContext.current
@@ -42,7 +42,7 @@ fun HomeScreen(
     val userBooks = viewModel.booksFromFB.value.filter {
         it.userId == currentUser?.uid.toString()
     }
-    Log.d("Test", "${userBooks}")
+
 
     Box(
         modifier = Modifier
@@ -60,38 +60,6 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             if (userBooks.isEmpty()) {
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp),
-                contentAlignment = Alignment.Center) {
-                    Text(text = "The list is empty.", color = Color.DarkGray)
-                }
-            } else {
-                CurrentlyReadingSection(
-                    context = context,
-                    navController = navController,
-                    userBooks = userBooks,
-                    commonViewModel = commonViewModel
-                )
-            }
-
-            MyButton(
-                text = "SEARCH", modifier = Modifier
-                    .padding(top = 20.dp)
-                    .clip(RoundedCornerShape(16.dp))
-            ) {
-                navController.navigate(Screen.Search.route)
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Divider(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
-                color = Color.DarkGray,
-                thickness = 2.dp
-            )
-
-            if (userBooks.isEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,7 +69,65 @@ fun HomeScreen(
                     Text(text = "The list is empty.", color = Color.DarkGray)
                 }
             } else {
-                YourCollectionSection(navController = navController, bookList = userBooks)
+                if (!viewModel.isLoading.value) {
+                    CurrentlyReadingSection(
+                        context = context,
+                        navController = navController,
+                        userBooks = userBooks.filter { it.read == false },
+                        commonViewModel = commonViewModel
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = AppColors.mMain)
+                    }
+                }
+
+                MyButton(
+                    text = "SEARCH", modifier = Modifier
+                        .padding(top = 20.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                ) {
+                    navController.navigate(Screen.Search.route)
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                    color = Color.DarkGray,
+                    thickness = 2.dp
+                )
+
+                if (userBooks.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(15.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "The list is empty.", color = Color.DarkGray)
+                    }
+                } else {
+                    if (!viewModel.isLoading.value) {
+                        YourCollectionSection(
+                            navController = navController,
+                            bookList = userBooks.filter { it.read == true })
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(color = AppColors.mMain)
+                        }
+                    }
+                }
             }
         }
 

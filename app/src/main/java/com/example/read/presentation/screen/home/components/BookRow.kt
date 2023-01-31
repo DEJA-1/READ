@@ -62,7 +62,7 @@ fun BookRow(
         }
 
         if (isYourCollection) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
                 Text(
                     modifier = Modifier.padding(top = 4.dp),
                     text = book.title.toString(),
@@ -75,26 +75,6 @@ fun BookRow(
                     overflow = TextOverflow.Clip
                 )
 
-                Row() {
-                    Text(
-                        text = "5",
-                        fontWeight = FontWeight.Light,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 16.sp,
-                        color = AppColors.mTextWhite,
-                        textAlign = TextAlign.Center
-
-                    )
-
-                    Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = "star icon",
-                        tint = AppColors.mMain,
-                        modifier = Modifier.size(22.dp)
-                    )
-                }
-
-            }
         }
 
         if (isForYou) {

@@ -9,7 +9,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,10 +57,11 @@ fun YourCollectionSection(
         LazyRow() {
             items(bookList) { book ->
                 BookRow(
+                    modifier = Modifier.padding(4.dp),
                     shapeDp = 12,
                     heightSize = 150,
                     book = book,
-                    widthSize = 105,
+                    widthSize = 110,
                     isYourCollection = true,
                     onItemClicked = { navController.navigate(Screen.Rate.route) }
                 ) {
@@ -79,10 +83,33 @@ fun YourCollectionSection(
 
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(0.1f)
-                                .background(AppColors.mGreen)
-                        )
+                                .fillMaxWidth(0.5f)
+                                .fillMaxHeight(0.2f)
+                                .align(Alignment.BottomStart)
+                                .padding(4.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(Color.Black),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row() {
+                                Text(
+                                    text = "5",
+                                    fontWeight = FontWeight.Bold,
+                                    fontStyle = FontStyle.Italic,
+                                    fontSize = 16.sp,
+                                    color = AppColors.mTextWhite,
+                                    textAlign = TextAlign.Center
+
+                                )
+
+                                Icon(
+                                    imageVector = Icons.Filled.Star,
+                                    contentDescription = "star icon",
+                                    tint = AppColors.mMain,
+                                    modifier = Modifier.size(22.dp)
+                                )
+                            }
+                        }
                     }
 
                 }
