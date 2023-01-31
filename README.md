@@ -20,6 +20,9 @@
 
   - Check details about the selected book
 
+![image](https://user-images.githubusercontent.com/83213476/215797388-fa6dace1-100e-4a62-82c5-bcba4ca5cb0b.png)
+
+
   - Rate your books
 In progress
   
