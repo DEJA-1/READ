@@ -111,6 +111,7 @@ fun CurrentlyReadingSection(
                                             isRead.value = !isRead.value
                                             isExpanded.value = !isExpanded.value
                                             viewModel.updateBook(context = context, book = book, isRead = isRead.value)
+                                            viewModel.getBooksFromFB()
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))
 

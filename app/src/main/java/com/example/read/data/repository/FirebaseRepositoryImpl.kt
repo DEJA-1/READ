@@ -1,6 +1,8 @@
 package com.example.read.data.repository
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import com.example.read.commons.Resource
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
@@ -12,23 +14,33 @@ import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
     private val queryBook: CollectionReference
-): FirebaseRepository {
-    override suspend fun addToFirebase(book: BookFB) {
+) : FirebaseRepository {
+    override suspend fun addToFirebase(book: BookFB, toastFailure: Toast, toastSuccess: Toast) {
 
         if (book.toString().isNotEmpty()) {
-            queryBook.add(book)
-                .addOnSuccessListener { documentRef ->
+            queryBook.whereEqualTo("title", book.title)
+                .get()
+                .addOnSuccessListener {
+                    if (it.isEmpty) {
+                        queryBook.add(book)
+                            .addOnSuccessListener { documentRef ->
 
-                    val documentId = documentRef.id
-                    queryBook.document(documentId)
-                        .update(hashMapOf("id" to documentId) as Map<String, Any>)
+                                val documentId = documentRef.id
+                                queryBook.document(documentId)
+                                    .update(hashMapOf("id" to documentId) as Map<String, Any>)
 
-                        .addOnFailureListener {
-                            Log.w("Error", "AddToFirebase: Failed updating doc", it)
-                        }
+                                    .addOnFailureListener {
+                                        Log.w("Error", "AddToFirebase: Failed updating doc", it)
+                                    }
+                                toastSuccess.show()
+                            }
+                    } else {
+                        toastFailure.show()
+                    }
                 }
         }
     }
+
     override suspend fun getBooksFromFB(): Resource<List<BookFB>> {
         return try {
             Resource.Loading(true)
@@ -36,7 +48,7 @@ class FirebaseRepositoryImpl @Inject constructor(
             val response = queryBook.get().await().documents.map { documentSnapshot ->
                 documentSnapshot.toObject(BookFB::class.java)!!
             }
-                Resource.Loading(false)
+            Resource.Loading(false)
             Resource.Success(response)
 
         } catch (exception: FirebaseFirestoreException) {

@@ -71,61 +71,43 @@ fun HomeScreen(
                     CircularProgressIndicator(color = AppColors.mMain)
                 }
             } else {
-                if (userBooks.isEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(15.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "The list is empty.", color = Color.DarkGray)
-                    }
-                } else {
-                    CurrentlyReadingSection(
-                        context = context,
-                        navController = navController,
-                        userBooks = userBooks.filter { it.read == false },
+
+                CurrentlyReadingSection(
+                    context = context,
+                    navController = navController,
+                    userBooks = userBooks.filter { it.read == false },
 //                        userBooks = mUserBooks,
-                        commonViewModel = commonViewModel
-                    )
+                    commonViewModel = commonViewModel
+                )
 
-                    MyButton(
-                        text = "SEARCH", modifier = Modifier
-                            .padding(top = 20.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                    ) {
-                        navController.navigate(Screen.Search.route)
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Divider(
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
-                        color = Color.DarkGray,
-                        thickness = 2.dp
-                    )
-
-                    if (userBooks.isEmpty()) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(15.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "The list is empty.", color = Color.DarkGray)
-                        }
-                    } else {
-                        YourCollectionSection(
-                            navController = navController,
-                            bookList = userBooks.filter { it.read == true })
-                    }
+                MyButton(
+                    text = "SEARCH", modifier = Modifier
+                        .padding(top = 20.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                ) {
+                    navController.navigate(Screen.Search.route)
                 }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                    color = Color.DarkGray,
+                    thickness = 2.dp
+                )
+
+
+                YourCollectionSection(
+                    navController = navController,
+                    bookList = userBooks.filter { it.read == true })
+
             }
-
         }
-    }
 
+    }
 }
+
+
 
 
 

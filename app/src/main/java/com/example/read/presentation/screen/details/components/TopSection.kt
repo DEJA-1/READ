@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import com.example.read.commons.AppColors
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
+import com.example.read.navigation.Screen
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.details.DetailsViewModel
 import com.example.read.presentation.screen.home.HomeViewModel
@@ -133,11 +134,12 @@ fun TopSection(
                                 bookId = book.id,
                                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                             )
-                            viewModel.addToFirebase(bookFb)
-                            Toast.makeText(context, "Book added successfully", Toast.LENGTH_SHORT)
-                                .show()
+                            viewModel.addToFirebase(book = bookFb,
+                                toastFailure = Toast.makeText(context, "You've already saved this book!", Toast.LENGTH_SHORT),
+                                toastSuccess = Toast.makeText(context, "Sucessfully added the book!", Toast.LENGTH_SHORT)
+                            )
                             homeViewModel.getBooksFromFB()
-                            navController.popBackStack()
+                            navController.navigate(Screen.Home.route)
                         }
                         MyButton(
                             text = "CANCEL",
