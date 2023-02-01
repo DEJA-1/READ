@@ -35,6 +35,6 @@ In progress
   - HILT
   - MVVM
   - CLEAN ARCHITECTURE
-  - FIREBASE Authentication
-  - FIREBASE Realime Database
+  - FIREBASE AUTHENTICATION
+  - CLOUD FIRESTORE
   
