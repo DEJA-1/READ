@@ -3,7 +3,6 @@ package com.example.read.domain.model
 import com.google.firebase.firestore.Exclude
 
 data class BookFB(
-    @Exclude
     val id: String? = null,
     val title: String? = null,
     val authors: String? = null,

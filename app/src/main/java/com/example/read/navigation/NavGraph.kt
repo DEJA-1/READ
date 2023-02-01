@@ -16,12 +16,13 @@ import com.example.read.presentation.screen.login.LoginScreen
 import com.example.read.presentation.screen.login.LoginViewModel
 import com.example.read.presentation.screen.profile.ProfileScreen
 import com.example.read.presentation.screen.rate.RateScreen
+import com.example.read.presentation.screen.rate.RateViewModel
 import com.example.read.presentation.screen.search.SearchScreen
 
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
-    val commonViewModel: CommonViewModel = viewModel()
+    val commonViewModel = hiltViewModel<CommonViewModel>()
 
     NavHost(
         navController = navController,
@@ -58,7 +59,8 @@ fun NavGraph() {
         composable(
             route = Screen.Rate.route
         ) {
-            RateScreen(navController = navController)
+            val rateViewModel = hiltViewModel<RateViewModel>()
+            RateScreen(navController = navController, commonViewModel = commonViewModel, rateViewModel = rateViewModel)
         }
 
         composable(

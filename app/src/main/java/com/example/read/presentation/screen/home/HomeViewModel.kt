@@ -10,6 +10,7 @@ import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,21 +51,6 @@ class HomeViewModel @Inject constructor(
                 else -> {}
             }
         }
-    }
-
-    fun updateBook(book: BookFB, isRead: Boolean, context: Context) {
-
-        val bookUpdate = hashMapOf(
-            "read" to isRead
-        ).toMap()
-
-        FirebaseFirestore.getInstance()
-            .collection("books")
-            .document(book.id!!)
-            .update(bookUpdate)
-            .addOnCompleteListener {
-                Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
-            }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.read.data.repository
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
@@ -20,8 +21,8 @@ class FirebaseRepositoryImpl @Inject constructor(
         if (book.toString().isNotEmpty()) {
             queryBook.whereEqualTo("title", book.title)
                 .get()
-                .addOnSuccessListener {
-                    if (it.isEmpty) {
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot.isEmpty) {
                         queryBook.add(book)
                             .addOnSuccessListener { documentRef ->
 
@@ -55,4 +56,36 @@ class FirebaseRepositoryImpl @Inject constructor(
             Resource.Error(exception.message.toString())
         }
     }
+
+    override suspend fun updateBookRead(book: BookFB, isRead: Boolean, context: Context) {
+        val bookUpdate = hashMapOf(
+            "read" to isRead
+        ).toMap()
+
+        book.id?.let {
+            FirebaseFirestore.getInstance()
+                .collection("books")
+                .document(it)
+                .update(bookUpdate)
+                .addOnCompleteListener {
+                    Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+    }
+
+    override suspend fun updateBookRate(book: BookFB, isRated: Boolean, context: Context) {
+        val bookUpdate = hashMapOf(
+            "rated" to isRated
+        ).toMap()
+
+        FirebaseFirestore.getInstance()
+            .collection("books")
+            .document(book.id!!)
+            .update(bookUpdate)
+            .addOnCompleteListener {
+                Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 }

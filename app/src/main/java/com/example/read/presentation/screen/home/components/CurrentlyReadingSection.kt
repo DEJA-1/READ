@@ -77,10 +77,6 @@ fun CurrentlyReadingSection(
                         mutableStateOf(book.read)
                     }
 
-                    val isRated = rememberSaveable {
-                        mutableStateOf(false)
-                    }
-
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -114,9 +110,8 @@ fun CurrentlyReadingSection(
                                             contentPadding = 8
                                         ) {
                                             isRead.value = !isRead.value!!
-                                            Log.d("Test", isRead.value.toString())
                                             isExpanded.value = !isExpanded.value
-                                            viewModel.updateBook(context = context, book = book, isRead = isRead.value!!)
+                                            commonViewModel.updateBookRead(context = context, book = book, isRead = isRead.value!!)
                                             viewModel.getBooksFromFB()
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))
