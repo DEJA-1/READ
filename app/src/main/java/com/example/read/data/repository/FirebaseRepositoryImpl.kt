@@ -36,7 +36,6 @@ class FirebaseRepositoryImpl @Inject constructor(
             val response = queryBook.get().await().documents.map { documentSnapshot ->
                 documentSnapshot.toObject(BookFB::class.java)!!
             }
-            if (response.isNotEmpty())
                 Resource.Loading(false)
             Resource.Success(response)
 

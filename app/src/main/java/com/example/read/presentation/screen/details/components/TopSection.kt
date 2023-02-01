@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -25,6 +26,7 @@ import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.details.DetailsViewModel
+import com.example.read.presentation.screen.home.HomeViewModel
 import com.example.read.util.isValid
 import com.google.firebase.auth.FirebaseAuth
 
@@ -34,8 +36,8 @@ fun TopSection(
     book: BookFB,
     navController: NavController,
     viewModel: DetailsViewModel,
-
-    ) {
+    homeViewModel: HomeViewModel = hiltViewModel(),
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -134,6 +136,7 @@ fun TopSection(
                             viewModel.addToFirebase(bookFb)
                             Toast.makeText(context, "Book added successfully", Toast.LENGTH_SHORT)
                                 .show()
+                            homeViewModel.getBooksFromFB()
                             navController.popBackStack()
                         }
                         MyButton(

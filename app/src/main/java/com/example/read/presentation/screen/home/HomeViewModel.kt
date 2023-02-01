@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.read.commons.Resource
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,23 +17,47 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: FirebaseRepository
 ): ViewModel() {
-    private val _isLoading = mutableStateOf(true)
+    private val _isLoading =  mutableStateOf(true)
     val isLoading = _isLoading
 
     private val _booksFromFB = mutableStateOf(listOf<BookFB>())
     val booksFromFB = _booksFromFB
 
+    private val errorMessage = mutableStateOf("")
+
     init {
         getBooksFromFB()
     }
 
+//    fun getBooksFromFB() {
+//        viewModelScope.launch {
+//            _booksFromFB.value = repository.getBooksFromFB().data!!
+//
+////            if (_booksFromFB.value.isNotEmpty()) {
+////                _isLoading.value = false
+////            }
+//
+//            _isLoading.value = false
+//        }
+//    }
+
     fun getBooksFromFB() {
         viewModelScope.launch {
-            _isLoading.value = true
-            _booksFromFB.value = repository.getBooksFromFB().data!!
+            val result = repository.getBooksFromFB()
 
-            if (_booksFromFB.value.isNotEmpty())
-                _isLoading.value = false
+            when (result) {
+                is Resource.Success -> {
+                    _booksFromFB.value = result.data!!
+                    _isLoading.value = false
+                }
+
+                is Resource.Error -> {
+                    errorMessage.value = result.message!!
+                    _isLoading.value = false
+                }
+
+                else -> {}
+            }
         }
     }
 
