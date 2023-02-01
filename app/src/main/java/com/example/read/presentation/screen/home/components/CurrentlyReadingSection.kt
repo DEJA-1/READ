@@ -1,6 +1,7 @@
 package com.example.read.presentation.screen.home.components
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,7 +45,7 @@ fun CurrentlyReadingSection(
     userBooks: List<BookFB>,
     context: Context = LocalContext.current,
     commonViewModel: CommonViewModel,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel,
     navController: NavController
 ) {
     Column(
@@ -73,6 +74,10 @@ fun CurrentlyReadingSection(
                     }
 
                     val isRead = rememberSaveable {
+                        mutableStateOf(book.read)
+                    }
+
+                    val isRated = rememberSaveable {
                         mutableStateOf(false)
                     }
 
@@ -108,9 +113,10 @@ fun CurrentlyReadingSection(
                                             fontSize = 12,
                                             contentPadding = 8
                                         ) {
-                                            isRead.value = !isRead.value
+                                            isRead.value = !isRead.value!!
+                                            Log.d("Test", isRead.value.toString())
                                             isExpanded.value = !isExpanded.value
-                                            viewModel.updateBook(context = context, book = book, isRead = isRead.value)
+                                            viewModel.updateBook(context = context, book = book, isRead = isRead.value!!)
                                             viewModel.getBooksFromFB()
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))

@@ -14,6 +14,7 @@ data class BookFB(
     val publishedDate: String? = null,
     val rating: Double? = null,
     val read: Boolean? = null,
+    val rated: Boolean? = null,
     val bookId: String? = null,
     val userId: String? = null
 )

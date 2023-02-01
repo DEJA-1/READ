@@ -40,10 +40,6 @@ fun HomeScreen(
     val currentUser = FirebaseAuth.getInstance().currentUser
     val context = LocalContext.current
 
-//    val userBooks = viewModel.booksFromFB.value.filter {
-//        it.userId == currentUser?.uid.toString()
-//    }
-
     val userBooks = viewModel.booksFromFB.value.filter {
         it.userId == currentUser?.uid.toString()
     }
@@ -75,9 +71,10 @@ fun HomeScreen(
                 CurrentlyReadingSection(
                     context = context,
                     navController = navController,
-                    userBooks = userBooks.filter { it.read == false },
+                    userBooks = userBooks.filter { it.read == false || it.rated == false },
 //                        userBooks = mUserBooks,
-                    commonViewModel = commonViewModel
+                    commonViewModel = commonViewModel,
+                    viewModel = viewModel
                 )
 
                 MyButton(
@@ -99,7 +96,7 @@ fun HomeScreen(
 
                 YourCollectionSection(
                     navController = navController,
-                    bookList = userBooks.filter { it.read == true })
+                    bookList = userBooks.filter { it.read == true && it.rated == true})
 
             }
         }

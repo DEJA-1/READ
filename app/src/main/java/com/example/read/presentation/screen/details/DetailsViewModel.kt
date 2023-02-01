@@ -15,9 +15,6 @@ class DetailsViewModel @Inject constructor(
     val repository: FirebaseRepository
 ) : ViewModel() {
 
-    private val _loading = mutableStateOf(false)
-    val loading = _loading
-
     fun addToFirebase(book: BookFB, toastFailure: Toast, toastSuccess: Toast) = viewModelScope.launch {
         repository.addToFirebase(book, toastFailure, toastSuccess)
     }

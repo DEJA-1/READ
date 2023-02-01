@@ -30,21 +30,9 @@ class HomeViewModel @Inject constructor(
         getBooksFromFB()
     }
 
-//    fun getBooksFromFB() {
-//        viewModelScope.launch {
-//            _booksFromFB.value = repository.getBooksFromFB().data!!
-//
-////            if (_booksFromFB.value.isNotEmpty()) {
-////                _isLoading.value = false
-////            }
-//
-//            _isLoading.value = false
-//        }
-//    }
-
     fun getBooksFromFB() {
         viewModelScope.launch {
-            delay(100L)
+            delay(200L)
             _isLoading.value = true
             val result = repository.getBooksFromFB()
 

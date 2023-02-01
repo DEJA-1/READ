@@ -131,6 +131,7 @@ fun TopSection(
                                 publishedDate = book.publishedDate,
                                 rating = 0.0,
                                 read = false,
+                                rated = false,
                                 bookId = book.id,
                                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
                             )
