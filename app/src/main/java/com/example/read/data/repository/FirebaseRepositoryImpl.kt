@@ -74,18 +74,38 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun updateBookRate(book: BookFB, isRated: Boolean, context: Context) {
+    override suspend fun updateBookRate(book: BookFB, isRated: Boolean, rating: Int, context: Context) {
         val bookUpdate = hashMapOf(
-            "rated" to isRated
+            "rated" to isRated,
+            "rating" to rating
         ).toMap()
 
-        FirebaseFirestore.getInstance()
-            .collection("books")
-            .document(book.id!!)
-            .update(bookUpdate)
-            .addOnCompleteListener {
-                Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
-            }
+        book.id?.let {
+            FirebaseFirestore.getInstance()
+                .collection("books")
+                .document(it)
+                .update(bookUpdate)
+                .addOnCompleteListener {
+                    Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    override suspend fun updateBookNote(book: BookFB, note: String, context: Context) {
+        val bookUpdate = hashMapOf(
+            "note" to note
+        ).toMap()
+
+        book.id?.let {
+            FirebaseFirestore.getInstance()
+                .collection("books")
+                .document(it)
+                .update(bookUpdate)
+                .addOnCompleteListener {
+                    Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
+                }
+        }
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.read.presentation.common_components
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.example.read.commons.AppColors
 
 @Composable
@@ -29,6 +31,7 @@ fun TextInputField(
     imeAction: ImeAction = ImeAction.Next,
     onAction: KeyboardActions = KeyboardActions.Default,
     isPassword: Boolean = false,
+    shape: RoundedCornerShape = RoundedCornerShape(6.dp),
     trailingIcon: @Composable() () -> Unit
 ) {
     val visualTransformation = if (isPassword)
@@ -53,6 +56,7 @@ fun TextInputField(
             unfocusedLabelColor = unfocusedLabelColor,
             cursorColor = AppColors.mMain
         ),
+        shape = shape,
         textStyle = TextStyle(color = AppColors.mTextWhite),
         visualTransformation = visualTransformation
     )

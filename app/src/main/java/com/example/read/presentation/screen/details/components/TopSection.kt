@@ -129,7 +129,7 @@ fun TopSection(
                                 pageCount = book.pageCount,
                                 image = book.image,
                                 publishedDate = book.publishedDate,
-                                rating = 0.0,
+                                rating = 0,
                                 read = false,
                                 rated = false,
                                 bookId = book.id,

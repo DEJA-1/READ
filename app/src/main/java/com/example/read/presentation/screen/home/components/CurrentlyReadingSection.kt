@@ -4,21 +4,27 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.BottomStart
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
@@ -46,7 +52,7 @@ fun CurrentlyReadingSection(
     context: Context = LocalContext.current,
     commonViewModel: CommonViewModel,
     viewModel: HomeViewModel,
-    navController: NavController
+    navController: NavController,
 ) {
     Column(
         modifier = Modifier.padding()
@@ -66,8 +72,7 @@ fun CurrentlyReadingSection(
         LazyRow() {
             items(userBooks) { book ->
                 BookRow(
-                    modifier = Modifier.padding(4.dp),
-                    onItemClicked = { }
+                    modifier = Modifier.padding(4.dp)
                 ) {
                     val isExpanded = remember {
                         mutableStateOf(false)
@@ -81,7 +86,7 @@ fun CurrentlyReadingSection(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(AppColors.mBackgroundSec),
-                        contentAlignment = BottomCenter
+                        contentAlignment = BottomStart
                     ) {
 
                         Row {
@@ -111,7 +116,11 @@ fun CurrentlyReadingSection(
                                         ) {
                                             isRead.value = !isRead.value!!
                                             isExpanded.value = !isExpanded.value
-                                            commonViewModel.updateBookRead(context = context, book = book, isRead = isRead.value!!)
+                                            commonViewModel.updateBookRead(
+                                                context = context,
+                                                book = book,
+                                                isRead = isRead.value!!
+                                            )
                                             viewModel.getBooksFromFB()
                                         }
                                         Spacer(modifier = Modifier.height(4.dp))
@@ -128,6 +137,7 @@ fun CurrentlyReadingSection(
                                             commonViewModel.currentBook.value = book
                                             navController.navigate(Screen.Rate.route)
                                         }
+
                                     }
 
                                 }
@@ -153,12 +163,15 @@ fun CurrentlyReadingSection(
                             )
                         }
 
+
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight(0.1f)
                                 .background(if (book.read!!) AppColors.mGreen else AppColors.mRed)
                         )
+
+
                     }
                 }
             }

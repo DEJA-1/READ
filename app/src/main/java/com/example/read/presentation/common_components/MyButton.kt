@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,16 +32,16 @@ fun MyButton(
     text: String = "CONTINUE",
     fontSize: Int = 24,
     contentPadding: Int = 15,
+    backgroundColor: Color = AppColors.mMain,
     onButtonClicked: () -> Unit = {}
 ) {
-
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
                 onButtonClicked()
             }
-            .background(AppColors.mMain)
+            .background(backgroundColor)
             .clip(RoundedCornerShape(16.dp)),
         contentAlignment = Alignment.Center
     ) {

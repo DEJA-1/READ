@@ -30,9 +30,15 @@ class CommonViewModel @Inject constructor(
         }
     }
 
-    fun updateBookRate(book: BookFB, isRated: Boolean, context: Context) {
+    fun updateBookRate(book: BookFB, isRated: Boolean, rating: Int, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateBookRate(book, isRated, context)
+            repository.updateBookRate(book, isRated, rating, context)
+        }
+    }
+
+    fun updateBookNote(book: BookFB, note: String, context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateBookNote(book, note, context)
         }
     }
 }

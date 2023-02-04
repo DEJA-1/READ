@@ -75,7 +75,7 @@ fun Header(
         Icon(
             modifier = modifier.size(64.dp)
                 .clickable {
-                           onIconClick()
+                    onIconClick()
                 },
             imageVector = icon,
             contentDescription = "account icon",

@@ -96,7 +96,9 @@ fun HomeScreen(
 
                 YourCollectionSection(
                     navController = navController,
-                    bookList = userBooks.filter { it.read == true && it.rated == true})
+                    bookList = userBooks.filter { it.read == true && it.rated == true },
+                    commonViewModel = commonViewModel
+                )
 
             }
         }

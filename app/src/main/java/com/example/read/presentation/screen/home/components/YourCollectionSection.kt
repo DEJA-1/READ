@@ -33,12 +33,14 @@ import com.example.read.R
 import com.example.read.commons.AppColors
 import com.example.read.domain.model.BookFB
 import com.example.read.navigation.Screen
+import com.example.read.presentation.CommonViewModel
 
 @Composable
 fun YourCollectionSection(
     context: Context = LocalContext.current,
     bookList: List<BookFB>,
     navController: NavController,
+    commonViewModel: CommonViewModel
 ) {
 
     Column() {
@@ -63,7 +65,9 @@ fun YourCollectionSection(
                     book = book,
                     widthSize = 110,
                     isYourCollection = true,
-                    onItemClicked = { navController.navigate(Screen.Rate.route) }
+                    onItemClicked = {
+                        commonViewModel.updateCurrentBook(book)
+                        navController.navigate(Screen.Rate.route) }
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -93,7 +97,7 @@ fun YourCollectionSection(
                         ) {
                             Row() {
                                 Text(
-                                    text = "5",
+                                    text = if (book.rated == true) book.rating.toString() else "Not rated",
                                     fontWeight = FontWeight.Bold,
                                     fontStyle = FontStyle.Italic,
                                     fontSize = 16.sp,
@@ -102,12 +106,15 @@ fun YourCollectionSection(
 
                                 )
 
-                                Icon(
-                                    imageVector = Icons.Filled.Star,
-                                    contentDescription = "star icon",
-                                    tint = AppColors.mMain,
-                                    modifier = Modifier.size(22.dp)
-                                )
+                                if (book.rated == true) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Star,
+                                        contentDescription = "star icon",
+                                        tint = AppColors.mMain,
+                                        modifier = Modifier.size(22.dp)
+                                    )
+                                }
+
                             }
                         }
                     }
