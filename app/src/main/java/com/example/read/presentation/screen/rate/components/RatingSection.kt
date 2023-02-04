@@ -56,28 +56,29 @@ fun RatingSection(
             )
         }
 
-        Row() {
+        Row(
+        ) {
             Icon(
                 modifier = Modifier
-                    .size(54.dp)
+                    .size(40.dp)
                     .clickable {
                         if (rate.value < 5)
                             rate.value++
                     },
                 imageVector = Icons.Filled.AddCircle,
                 contentDescription = "Circle Icon",
-                tint = AppColors.mGreen
+                tint = AppColors.mMain
             )
             Icon(
                 modifier = Modifier
-                    .size(54.dp)
+                    .size(40.dp)
                     .clickable {
                         if (rate.value > 1)
                             rate.value--
                     },
                 imageVector = Icons.Filled.RemoveCircle,
                 contentDescription = "Circle Icon",
-                tint = AppColors.mRed
+                tint = AppColors.mMain
             )
         }
     }
