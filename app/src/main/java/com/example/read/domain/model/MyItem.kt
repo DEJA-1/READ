@@ -18,7 +18,7 @@ fun MyItem.toBookFB(): BookFB {
         pageCount = volumeInfo?.pageCount,
         image = volumeInfo?.imageLinks?.thumbnail,
         publishedDate = volumeInfo?.publishedDate,
-        rating = 0,
+        rating = 1,
         bookId = id,
         userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     )
