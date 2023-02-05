@@ -7,6 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -118,7 +120,7 @@ fun ProfileScreen(
             ) {
                 StatsSection(
                     bookCount = commonViewModel.readBookSize.value,
-                    ratingAvg = calculateAvg(userBooks),
+                    ratingAvg = commonViewModel.avgRating.value,
                     category = getFavCategory(userBooks)
                 )
             }

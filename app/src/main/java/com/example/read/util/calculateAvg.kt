@@ -9,7 +9,7 @@ fun calculateAvg(bookList: List<BookFB>): Double {
     }
     if (bookList.isEmpty())
         return 0.0
-    val num = (ratingSum / bookList.size).toDouble()
+    val num = (ratingSum.toDouble() / bookList.size.toDouble())
     return String.format("%.2f", num).toDouble()
 }
 

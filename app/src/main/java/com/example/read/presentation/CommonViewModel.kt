@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
 import com.example.read.domain.repository.FirebaseRepository
+import com.example.read.util.calculateAvg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +24,12 @@ class CommonViewModel @Inject constructor(
     private val _readBooksSize = mutableStateOf(0)
     val readBookSize = _readBooksSize
 
+    private val _avgRating = mutableStateOf(0.0)
+    val avgRating = _avgRating
+
+    fun calculateAvgRating(bookList: List<BookFB>) {
+        _avgRating.value = calculateAvg(bookList)
+    }
     fun getReadBooksSize(books: List<BookFB>) {
         _readBooksSize.value = books.size
     }

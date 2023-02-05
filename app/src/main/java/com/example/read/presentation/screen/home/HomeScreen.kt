@@ -59,6 +59,7 @@ fun HomeScreen(
         ) {
 
             Header(nick = currentUser?.email?.split('@')?.first().toString()) {
+                commonViewModel.calculateAvgRating(userBooks.filter { it.read && it.rated })
                 navController.navigate(Screen.Profile.route)
             }
 
