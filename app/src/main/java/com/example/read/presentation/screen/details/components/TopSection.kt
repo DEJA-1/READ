@@ -83,7 +83,7 @@ fun TopSection(
 
                     Text(
                         modifier = Modifier.padding(start = 16.dp, end = 2.dp),
-                        text = if (isValid(book.authors)) "${book.authors}" else "Unknown",
+                        text = if (isValid(book.authors)) book.authors!!.trim('[', ']') else "Unknown",
                         color = AppColors.mTextWhite,
                         fontWeight = FontWeight.Light,
                         fontStyle = FontStyle.Normal,

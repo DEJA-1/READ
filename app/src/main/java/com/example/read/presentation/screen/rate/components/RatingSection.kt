@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +43,7 @@ fun RatingSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "RATING: ${rate.value}",
+                text = "RATING:  ${rate.value}",
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic,
@@ -61,6 +63,7 @@ fun RatingSection(
             Icon(
                 modifier = Modifier
                     .size(40.dp)
+                    .shadow(elevation = 4.dp, shape = CircleShape)
                     .clickable {
                         if (rate.value < 5)
                             rate.value++
@@ -72,6 +75,7 @@ fun RatingSection(
             Icon(
                 modifier = Modifier
                     .size(40.dp)
+                    .shadow(elevation = 4.dp, shape = CircleShape)
                     .clickable {
                         if (rate.value > 1)
                             rate.value--

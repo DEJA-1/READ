@@ -24,6 +24,7 @@ import com.example.read.navigation.Screen
 import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.rate.components.NoteSection
+import com.example.read.presentation.screen.rate.components.RateTopSection
 import com.example.read.presentation.screen.rate.components.RatingSection
 import com.example.read.util.gradient
 
@@ -31,7 +32,7 @@ import com.example.read.util.gradient
 @Composable
 fun RateScreen(
     navController: NavController,
-    commonViewModel: CommonViewModel
+    commonViewModel: CommonViewModel,
 ) {
 
     val context = LocalContext.current
@@ -49,38 +50,38 @@ fun RateScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(gradient(colors = listOf(AppColors.mBackground, AppColors.mBackgroundSec)))
-            .padding(8.dp),
-        contentAlignment = Alignment.Center
     ) {
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.25f)
+                .background(AppColors.mMain)
+                .align(Alignment.TopCenter)
+        )
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+        Column() {
+            RateTopSection(
+                navController = navController,
+                context = context,
+                book = commonViewModel.currentBook.value
             ) {
-                Text(
-                    text = commonViewModel.currentBook.value.title.toString(),
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic,
-                    color = AppColors.mTextWhite,
-                    textAlign = TextAlign.Center
+                commonViewModel.updateBookRate(
+                    commonViewModel.currentBook.value,
+                    isRated = true,
+                    rating = rate.value,
+                    context
                 )
-
-                Text(
-                    text = if (commonViewModel.currentBook.value.authors == null) "Unknown" else commonViewModel.currentBook.value.authors.toString().trim('[', ']'),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Light,
-                    fontStyle = FontStyle.Italic,
-                    color = AppColors.mTextWhite,
-                    textAlign = TextAlign.Center
+                commonViewModel.updateBookNote(
+                    commonViewModel.currentBook.value,
+                    note = note.value,
+                    context
                 )
+                navController.navigate(Screen.Home.route)
             }
 
             Card(
+                modifier = Modifier.padding(8.dp),
                 elevation = 4.dp,
                 shape = RoundedCornerShape(12.dp),
                 backgroundColor = AppColors.mBackgroundSec
@@ -89,30 +90,30 @@ fun RateScreen(
                     modifier = Modifier.padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    RatingSection(rate = rate)
 
                     NoteSection(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(0.25f),
+                            .fillMaxHeight(1f),
                         valueState = note
                     ) {
                         keyboardController?.hide()
                     }
 
-                    RatingSection(rate = rate)
                 }
 
             }
-
-            MyButton(
-                text = "SAVE"
-            ) {
-                commonViewModel.updateBookRate(commonViewModel.currentBook.value, isRated = true, rating = rate.value, context)
-                commonViewModel.updateBookNote(commonViewModel.currentBook.value, note = note.value, context)
-                navController.navigate(Screen.Home.route)
-            }
         }
 
+//            MyButton(
+//                text = "SAVE"
+//            ) {
+//                commonViewModel.updateBookRate(commonViewModel.currentBook.value, isRated = true, rating = rate.value, context)
+//                commonViewModel.updateBookNote(commonViewModel.currentBook.value, note = note.value, context)
+//                navController.navigate(Screen.Home.route)
+//            }
     }
 
 }
+
