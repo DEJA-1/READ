@@ -24,7 +24,8 @@
 
 
   - Rate your books
-In progress
+  
+![image](https://user-images.githubusercontent.com/83213476/216824689-144e0297-7e77-458b-a240-107c0805ed9c.png)
   
   - Check your profile stats
 In progress
