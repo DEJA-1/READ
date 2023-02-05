@@ -47,6 +47,8 @@ fun HomeScreen(
         it.userId == currentUser?.uid.toString()
     }
 
+    commonViewModel.getReadBooksSize(userBooks.filter { it.read && it.rated })
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +73,7 @@ fun HomeScreen(
                 }
             } else {
 
-                if (userBooks.none { it.read == false || it.rated == false }) {
+                if (userBooks.none { !it.read || !it.rated }) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -90,7 +92,7 @@ fun HomeScreen(
                     CurrentlyReadingSection(
                         context = context,
                         navController = navController,
-                        userBooks = userBooks.filter { it.read == false || it.rated == false },
+                        userBooks = userBooks.filter { !it.read || !it.rated },
                         commonViewModel = commonViewModel,
                         viewModel = viewModel
                     )
@@ -112,7 +114,7 @@ fun HomeScreen(
                     thickness = 2.dp
                 )
 
-                if (userBooks.none { it.read == true && it.rated == true }) {
+                if (userBooks.none { it.read && it.rated }) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -130,7 +132,7 @@ fun HomeScreen(
                 } else {
                     YourCollectionSection(
                         navController = navController,
-                        bookList = userBooks.filter { it.read == true && it.rated == true },
+                        bookList = userBooks.filter { it.read && it.rated },
                         commonViewModel = commonViewModel
                     )
                 }

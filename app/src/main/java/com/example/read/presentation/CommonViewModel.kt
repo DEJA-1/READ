@@ -20,6 +20,13 @@ class CommonViewModel @Inject constructor(
     private val _currentBook = mutableStateOf(BookFB())
     val currentBook = _currentBook
 
+    private val _readBooksSize = mutableStateOf(0)
+    val readBookSize = _readBooksSize
+
+    fun getReadBooksSize(books: List<BookFB>) {
+        _readBooksSize.value = books.size
+    }
+
     fun updateCurrentBook(book: BookFB) {
         _currentBook.value = book
     }

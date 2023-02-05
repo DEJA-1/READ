@@ -97,7 +97,7 @@ fun YourCollectionSection(
                         ) {
                             Row() {
                                 Text(
-                                    text = if (book.rated == true) book.rating.toString() else "Not rated",
+                                    text = if (book.rated) book.rating.toString() else "Not rated",
                                     fontWeight = FontWeight.Bold,
                                     fontStyle = FontStyle.Italic,
                                     fontSize = 16.sp,
@@ -106,7 +106,7 @@ fun YourCollectionSection(
 
                                 )
 
-                                if (book.rated == true) {
+                                if (book.rated) {
                                     Icon(
                                         imageVector = Icons.Filled.Star,
                                         contentDescription = "star icon",

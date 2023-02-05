@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.example.read.commons.Resource
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -17,9 +18,11 @@ class FirebaseRepositoryImpl @Inject constructor(
     private val queryBook: CollectionReference
 ) : FirebaseRepository {
     override suspend fun addToFirebase(book: BookFB, toastFailure: Toast, toastSuccess: Toast) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (book.toString().isNotEmpty()) {
             queryBook.whereEqualTo("title", book.title)
+                .whereEqualTo("userId", currentUser?.uid)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     if (querySnapshot.isEmpty) {

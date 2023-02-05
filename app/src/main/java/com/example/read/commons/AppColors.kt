@@ -10,4 +10,5 @@ object AppColors {
     val mForGradient = Color(0xFF573e00)
     val mRed = Color(0xFF621708)
     val mGreen = Color(0xFF3A7D44)
+    val mGray = Color(0xFF3B3A3A)
 }

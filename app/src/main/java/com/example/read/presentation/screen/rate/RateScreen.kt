@@ -2,6 +2,8 @@ package com.example.read.presentation.screen.rate
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -29,8 +31,7 @@ import com.example.read.util.gradient
 @Composable
 fun RateScreen(
     navController: NavController,
-    commonViewModel: CommonViewModel,
-    rateViewModel: RateViewModel
+    commonViewModel: CommonViewModel
 ) {
 
     val context = LocalContext.current
@@ -70,7 +71,7 @@ fun RateScreen(
                 )
 
                 Text(
-                    text = commonViewModel.currentBook.value.authors.toString(),
+                    text = if (commonViewModel.currentBook.value.authors == null) "Unknown" else commonViewModel.currentBook.value.authors.toString().trim('[', ']'),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Light,
                     fontStyle = FontStyle.Italic,
@@ -79,16 +80,29 @@ fun RateScreen(
                 )
             }
 
-            NoteSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.25f),
-                valueState = note
+            Card(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(12.dp),
+                backgroundColor = AppColors.mBackgroundSec
             ) {
-                keyboardController?.hide()
-            }
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
 
-            RatingSection(rate = rate)
+                    NoteSection(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.25f),
+                        valueState = note
+                    ) {
+                        keyboardController?.hide()
+                    }
+
+                    RatingSection(rate = rate)
+                }
+
+            }
 
             MyButton(
                 text = "SAVE"

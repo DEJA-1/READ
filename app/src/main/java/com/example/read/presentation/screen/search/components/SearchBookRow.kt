@@ -55,7 +55,7 @@ fun SearchBookRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
-                    .background(Color(0xFF3B3A3A))
+                    .background(AppColors.mGray)
 
             ) {
                 Box(
