@@ -114,6 +114,13 @@ fun StatsSection(
                 textAlign = TextAlign.Center
             )
         }
+
+        Divider(
+            modifier = Modifier.padding(8.dp),
+            color = Color.DarkGray,
+            thickness = 2.dp
+        )
+
     }
 
 }

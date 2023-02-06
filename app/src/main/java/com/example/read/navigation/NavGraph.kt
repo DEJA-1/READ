@@ -15,6 +15,7 @@ import com.example.read.presentation.screen.home.HomeViewModel
 import com.example.read.presentation.screen.login.LoginScreen
 import com.example.read.presentation.screen.login.LoginViewModel
 import com.example.read.presentation.screen.profile.ProfileScreen
+import com.example.read.presentation.screen.profile.ProfileViewModel
 import com.example.read.presentation.screen.rate.RateScreen
 import com.example.read.presentation.screen.search.SearchScreen
 
@@ -25,7 +26,7 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route
+        startDestination = Screen.Profile.route
     ) {
         composable(
             route = Screen.Home.route
@@ -64,7 +65,8 @@ fun NavGraph() {
         composable(
             route = Screen.Profile.route
         ) {
-            ProfileScreen(navController = navController, commonViewModel = commonViewModel)
+            val profileViewModel = hiltViewModel<ProfileViewModel>()
+            ProfileScreen(navController = navController, commonViewModel = commonViewModel, profileViewModel = profileViewModel)
         }
     }
 }

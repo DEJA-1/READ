@@ -2,14 +2,15 @@ package com.example.read.presentation.screen.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,14 +22,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.read.R
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.Achievement
+import com.example.read.domain.model.loadAchievements
 import com.example.read.navigation.Screen
 import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.home.HomeViewModel
 import com.example.read.presentation.screen.home.components.Header
+import com.example.read.presentation.screen.profile.components.AchievementsSection
 import com.example.read.presentation.screen.profile.components.StatsSection
 import com.example.read.presentation.screen.profile.components.YourFavoritesSection
-import com.example.read.util.calculateAvg
 import com.example.read.util.getFavCategory
 import com.example.read.util.gradient
 import com.google.firebase.auth.FirebaseAuth
@@ -37,12 +41,12 @@ import com.google.firebase.auth.FirebaseAuth
 fun ProfileScreen(
     navController: NavController,
     commonViewModel: CommonViewModel,
-    homeViewModel: HomeViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel
 ) {
 
     val currentUser = FirebaseAuth.getInstance().currentUser
     val context = LocalContext.current
-    val userBooks = homeViewModel.booksFromFB.value.filter {
+    val userBooks = profileViewModel.booksFromFB.value.filter {
         it.userId == currentUser?.uid.toString()
     }
 
@@ -53,6 +57,7 @@ fun ProfileScreen(
             .padding(8.dp)
     ) {
         Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.Start
         ) {
             Header(
@@ -115,7 +120,6 @@ fun ProfileScreen(
             )
 
             Box(
-                modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopCenter
             ) {
                 StatsSection(
@@ -124,8 +128,26 @@ fun ProfileScreen(
                     category = getFavCategory(userBooks)
                 )
             }
-        }
 
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 8.dp),
+                contentAlignment = Center
+            ) {
+                Card(
+                    modifier = Modifier.fillMaxSize(),
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(12.dp),
+                    backgroundColor = AppColors.mBackgroundSec,
+                ) {
+                    AchievementsSection(
+                        context = context,
+                        achievementList = profileViewModel.achievementList.value
+                    )
+                }
+            }
+        }
     }
 }
 

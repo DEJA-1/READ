@@ -105,14 +105,6 @@ fun RateScreen(
 
             }
         }
-
-//            MyButton(
-//                text = "SAVE"
-//            ) {
-//                commonViewModel.updateBookRate(commonViewModel.currentBook.value, isRated = true, rating = rate.value, context)
-//                commonViewModel.updateBookNote(commonViewModel.currentBook.value, note = note.value, context)
-//                navController.navigate(Screen.Home.route)
-//            }
     }
 
 }

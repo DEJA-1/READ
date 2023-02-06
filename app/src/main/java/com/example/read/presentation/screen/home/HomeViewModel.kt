@@ -30,7 +30,6 @@ class HomeViewModel @Inject constructor(
     init {
         getBooksFromFB()
     }
-
     fun getBooksFromFB() {
         viewModelScope.launch {
             delay(200L)
