@@ -77,7 +77,7 @@ fun ProfileScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Text(
                 modifier = Modifier.align(CenterHorizontally),
@@ -93,7 +93,7 @@ fun ProfileScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(150.dp),
+                        .height(170.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -143,7 +143,7 @@ fun ProfileScreen(
                 ) {
                     AchievementsSection(
                         context = context,
-                        achievementList = profileViewModel.achievementList.value
+                        achievementList = profileViewModel.achievementsFromFB.value.filter { it.userId == currentUser?.uid }
                     )
                 }
             }

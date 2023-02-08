@@ -25,13 +25,17 @@ import androidx.navigation.NavController
 import com.example.read.commons.AppColors
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
+import com.example.read.domain.model.loadAchievements
 import com.example.read.navigation.Screen
 import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.common_components.MyButton
 import com.example.read.presentation.screen.home.components.CurrentlyReadingSection
 import com.example.read.presentation.screen.home.components.Header
 import com.example.read.presentation.screen.home.components.YourCollectionSection
+import com.example.read.presentation.screen.profile.ProfileViewModel
 import com.example.read.util.gradient
+import com.example.read.util.handleAchievementState
+import com.example.read.util.loadAchievementsToFirebase
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -39,6 +43,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
     commonViewModel: CommonViewModel,
+    profileViewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val context = LocalContext.current
@@ -47,6 +52,12 @@ fun HomeScreen(
         it.userId == currentUser?.uid.toString()
     }
 
+    handleAchievementState(
+        bookList = userBooks,
+        achievementList = profileViewModel.achievementsFromFB.value.filter { it.userId == currentUser?.uid.toString() },
+        commonViewModel,
+        context
+    )
     commonViewModel.getReadBooksSize(userBooks.filter { it.read && it.rated })
 
     Box(

@@ -17,37 +17,42 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val repository: FirebaseRepository,
 ) : ViewModel() {
-    private val _isLoading = mutableStateOf(true)
-    val isLoading = _isLoading
+    private val _isLoadingBooks = mutableStateOf(true)
+    val isLoadingBooks = _isLoadingBooks
 
     private val _booksFromFB = mutableStateOf(listOf<BookFB>())
     val booksFromFB = _booksFromFB
 
-    private val errorMessage = mutableStateOf("")
 
-    private val _achievementList = mutableStateOf(listOf<Achievement>())
-    val achievementList = _achievementList
+    private val _isLoadingAchievements = mutableStateOf(true)
+    val isLoadingAchievements = _isLoadingAchievements
 
+    private val _achievementsFromFB = mutableStateOf(listOf<Achievement>())
+    val achievementsFromFB = _achievementsFromFB
+
+    private val errorMessageBooks = mutableStateOf("")
+
+    private val errorMessageAchievements = mutableStateOf("")
     init {
         getBooksFromFB()
-        getAchievementList()
+        getAchievementsFromFb()
     }
 
     private fun getBooksFromFB() {
         viewModelScope.launch {
             delay(200L)
-            _isLoading.value = true
+            _isLoadingBooks.value = true
             val result = repository.getBooksFromFB()
 
             when (result) {
                 is Resource.Success -> {
                     _booksFromFB.value = result.data!!
-                    _isLoading.value = false
+                    _isLoadingBooks.value = false
                 }
 
                 is Resource.Error -> {
-                    errorMessage.value = result.message!!
-                    _isLoading.value = false
+                    errorMessageBooks.value = result.message!!
+                    _isLoadingBooks.value = false
                 }
 
                 else -> {}
@@ -55,10 +60,25 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getAchievementList() {
-        _achievementList.value = loadAchievements()
+    private fun getAchievementsFromFb() {
+        viewModelScope.launch {
+            _isLoadingAchievements.value = true
+            val result = repository.getAchievementsFromFB()
+
+            when (result) {
+                is Resource.Success -> {
+                    _achievementsFromFB.value = result.data!!
+                    _isLoadingAchievements.value = false
+                }
+
+                is Resource.Error -> {
+                    errorMessageAchievements.value = result.message!!
+                    _isLoadingAchievements.value = false
+                }
+
+                else -> {}
+            }
+        }
     }
-    fun updateAchievementStatus(achievement: Achievement) {
-        achievement.isUnlocked = true
-    }
+
 }

@@ -132,7 +132,7 @@ fun LoginSection(
                     )
                 else {
                     Icon(
-                        modifier = Modifier.clickable{
+                        modifier = Modifier.clickable {
                             password.value = ""
                         },
                         imageVector = Icons.Filled.Cancel,

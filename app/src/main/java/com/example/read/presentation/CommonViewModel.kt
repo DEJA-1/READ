@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.read.commons.Resource
+import com.example.read.domain.model.Achievement
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.model.MyItem
 import com.example.read.domain.repository.FirebaseRepository
@@ -15,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommonViewModel @Inject constructor(
-    private val repository: FirebaseRepository
-): ViewModel() {
+    private val repository: FirebaseRepository,
+) : ViewModel() {
 
     private val _currentBook = mutableStateOf(BookFB())
     val currentBook = _currentBook
@@ -27,9 +29,11 @@ class CommonViewModel @Inject constructor(
     private val _avgRating = mutableStateOf(0.0)
     val avgRating = _avgRating
 
+
     fun calculateAvgRating(bookList: List<BookFB>) {
         _avgRating.value = calculateAvg(bookList)
     }
+
     fun getReadBooksSize(books: List<BookFB>) {
         _readBooksSize.value = books.size
     }
@@ -55,4 +59,17 @@ class CommonViewModel @Inject constructor(
             repository.updateBookNote(book, note, context)
         }
     }
+
+    fun addAchievementToFirebase(achievement: Achievement) {
+        viewModelScope.launch {
+            repository.addAchievementToFirebase(achievement)
+        }
+    }
+
+    fun updateAchievement(achievement: Achievement, isUnlocked: Boolean) {
+        viewModelScope.launch {
+            repository.updateAchievement(achievement, isUnlocked)
+        }
+    }
+
 }

@@ -5,57 +5,59 @@ import android.media.Image
 import com.example.read.R
 
 data class Achievement(
-    val name: String,
+    val id: String? = null,
+    val name: String = "",
     var isUnlocked: Boolean = false,
-    val imageUnlocked: Int
+    val imageUnlocked: String = "",
+    val userId: String? = null,
 )
 
 fun loadAchievements(): List<Achievement> {
     return listOf(
         Achievement(
-            "book",
-            true,
-            R.drawable.book,
+            name = "book",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/2436/2436729.png",
         ),
         Achievement(
-            "books",
-            false,
-            R.drawable.books,
+            name = "books",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/3330/3330314.png"
         ),
         Achievement(
-            "realEstate",
-            true,
-            R.drawable.realestate,
+            name = "realEstate",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/3796/3796856.png",
         ),
         Achievement(
-            "money",
-            true,
-            R.drawable.money,
+            name = "money",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/2704/2704332.png",
         ),
         Achievement(
-            "bulldog",
-            true,
-            R.drawable.bulldog,
+            name = "bulldog",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/2172/2172063.png",
         ),
         Achievement(
-            "nature",
-            false,
-            R.drawable.nature,
+            name = "nature",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/119/119591.png",
         ),
         Achievement(
-            "law",
-            false,
-            R.drawable.law,
+            name = "law",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/3122/3122427.png",
         ),
         Achievement(
-            "android",
-            true,
-            R.drawable.android,
+            name = "android",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/2222/2222807.png",
         ),
         Achievement(
-            "business",
-            false,
-            R.drawable.cooperation,
+            name = "business",
+            isUnlocked = false,
+            imageUnlocked = "https://cdn-icons-png.flaticon.com/512/3281/3281412.png",
         ),
 
         )

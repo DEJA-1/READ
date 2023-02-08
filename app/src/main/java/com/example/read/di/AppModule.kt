@@ -42,14 +42,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBookRepository(api: ReadApi) : BookRepository {
+    fun provideBookRepository(api: ReadApi): BookRepository {
         return BookRepositoryImpl(api)
     }
 
     @Provides
     @Singleton
-    fun provideFirebaseRepository() : FirebaseRepository {
-        return FirebaseRepositoryImpl(queryBook = FirebaseFirestore.getInstance().collection("books"))
+    fun provideFirebaseRepository(): FirebaseRepository {
+        return FirebaseRepositoryImpl(
+            queryBook = FirebaseFirestore.getInstance().collection("books"),
+            queryAchievement = FirebaseFirestore.getInstance().collection("achievements")
+        )
     }
 
 }

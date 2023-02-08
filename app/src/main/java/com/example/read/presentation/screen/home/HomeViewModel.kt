@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.read.commons.Resource
+import com.example.read.domain.model.Achievement
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
 import com.google.firebase.firestore.FirebaseFirestore

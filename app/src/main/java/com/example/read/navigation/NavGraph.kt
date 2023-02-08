@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.read.domain.model.loadAchievements
 import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.search.SearchViewModel
 import com.example.read.presentation.screen.details.DetailsScreen
@@ -18,6 +19,7 @@ import com.example.read.presentation.screen.profile.ProfileScreen
 import com.example.read.presentation.screen.profile.ProfileViewModel
 import com.example.read.presentation.screen.rate.RateScreen
 import com.example.read.presentation.screen.search.SearchScreen
+import com.example.read.util.loadAchievementsToFirebase
 
 @Composable
 fun NavGraph() {
@@ -26,7 +28,7 @@ fun NavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Profile.route
+        startDestination = Screen.Login.route
     ) {
         composable(
             route = Screen.Home.route
@@ -39,7 +41,7 @@ fun NavGraph() {
             route = Screen.Login.route
         ) {
             val loginViewModel: LoginViewModel = viewModel()
-            LoginScreen(navController = navController, viewModel = loginViewModel)
+            LoginScreen(navController = navController, viewModel = loginViewModel, commonViewModel = commonViewModel)
         }
 
         composable(

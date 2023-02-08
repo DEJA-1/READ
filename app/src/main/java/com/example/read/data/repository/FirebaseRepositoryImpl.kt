@@ -5,17 +5,20 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import com.example.read.commons.Resource
+import com.example.read.domain.model.Achievement
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
-    private val queryBook: CollectionReference
+    private val queryBook: CollectionReference,
+    private val queryAchievement: CollectionReference,
 ) : FirebaseRepository {
     override suspend fun addToFirebase(book: BookFB, toastFailure: Toast, toastSuccess: Toast) {
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -44,7 +47,6 @@ class FirebaseRepositoryImpl @Inject constructor(
                 }
         }
     }
-
     override suspend fun getBooksFromFB(): Resource<List<BookFB>> {
         return try {
             Resource.Loading(true)
@@ -59,16 +61,15 @@ class FirebaseRepositoryImpl @Inject constructor(
             Resource.Error(exception.message.toString())
         }
     }
-
     override suspend fun updateBookRead(book: BookFB, isRead: Boolean, context: Context) {
         val bookUpdate = hashMapOf(
             "read" to isRead
         ).toMap()
 
-        book.id?.let {
+        book.id?.let {id ->
             FirebaseFirestore.getInstance()
                 .collection("books")
-                .document(it)
+                .document(id)
                 .update(bookUpdate)
                 .addOnCompleteListener {
                     Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
@@ -76,24 +77,27 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
 
     }
-
-    override suspend fun updateBookRate(book: BookFB, isRated: Boolean, rating: Int, context: Context) {
+    override suspend fun updateBookRate(
+        book: BookFB,
+        isRated: Boolean,
+        rating: Int,
+        context: Context,
+    ) {
         val bookUpdate = hashMapOf(
             "rated" to isRated,
             "rating" to rating
         ).toMap()
 
-        book.id?.let {
+        book.id?.let {id ->
             FirebaseFirestore.getInstance()
                 .collection("books")
-                .document(it)
+                .document(id)
                 .update(bookUpdate)
                 .addOnCompleteListener {
                     Toast.makeText(context, "Book updated", Toast.LENGTH_SHORT).show()
                 }
         }
     }
-
     override suspend fun updateBookNote(book: BookFB, note: String, context: Context) {
         val bookUpdate = hashMapOf(
             "note" to note
@@ -110,5 +114,66 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
 
     }
+    override suspend fun addAchievementToFirebase(achievement: Achievement) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
+        val existingAchievement = queryAchievement
+            .whereEqualTo("name", achievement.name)
+            .whereEqualTo("userId", currentUser?.uid)
+            .get()
+            .await()
+
+        if (existingAchievement.documents.isEmpty()) {
+            queryAchievement.add(achievement)
+                .addOnSuccessListener { documentRef ->
+                    val documentId = documentRef.id
+                    queryAchievement.document(documentId)
+                        .update(
+                            hashMapOf(
+                                "id" to documentId,
+                                "userId" to currentUser?.uid
+                            ) as Map<String, Any>
+                        )
+                        .addOnFailureListener {
+                            Log.w("Error", "AddToFirebase: Failed updating doc", it)
+                        }
+                }
+        } else {
+            Log.w("Error", "AddToFirebase: Document with the same name and userId already exists")
+        }
+    }
+
+    override suspend fun updateAchievement(achievement: Achievement, isUnlocked: Boolean) {
+        val achievementUpdate = hashMapOf(
+            "unlocked" to isUnlocked
+        ).toMap()
+
+        achievement.id?.let { id ->
+            FirebaseFirestore.getInstance()
+                .collection("achievements")
+                .document(id)
+                .update(achievementUpdate)
+
+        }
+    }
+    override suspend fun getAchievementsFromFB(): Resource<List<Achievement>> {
+        return try {
+            Resource.Loading(true)
+
+            val response = queryAchievement.get().await().documents.map { documentSnapshot ->
+                documentSnapshot.toObject(Achievement::class.java)!!
+            }
+
+            Resource.Loading(false)
+            Resource.Success(response)
+
+        } catch (exception: FirebaseFirestoreException) {
+            Resource.Error(exception.message.toString())
+        }
+
+    }
 }
+
+
+
+

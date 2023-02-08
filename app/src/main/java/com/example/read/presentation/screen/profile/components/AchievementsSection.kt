@@ -41,7 +41,7 @@ fun AchievementsSection(
         ) {
 
             Text(
-                modifier = Modifier.align(CenterHorizontally).padding(4.dp),
+                modifier = Modifier.align(CenterHorizontally).padding(8.dp),
                 text = "ACHIEVEMENTS",
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic,

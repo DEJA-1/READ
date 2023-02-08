@@ -9,14 +9,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.read.commons.AppColors
+import com.example.read.domain.model.loadAchievements
 import com.example.read.navigation.Screen
+import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.login.components.LoginSection
 import com.example.read.util.gradient
+import com.example.read.util.loadAchievementsToFirebase
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel,
+    commonViewModel: CommonViewModel
 ) {
 
     val context = LocalContext.current
@@ -41,6 +45,7 @@ fun LoginScreen(
             LoginSection() { email, password ->
                 if (!viewModel.isSignUp.value) {
                     viewModel.singInWithEmailAndPassword(email = email, password = password, context = context) {
+                        loadAchievementsToFirebase(loadAchievements(), commonViewModel)
                         navController.navigate(Screen.Home.route)
                     }
                 } else {
