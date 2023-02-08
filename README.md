@@ -1,4 +1,4 @@
-#RECENT CHANGES
+# RECENT CHANGES
 
   - Added achievement system 
   
@@ -45,7 +45,7 @@
   - FIREBASE AUTHENTICATION
   - CLOUD FIRESTORE
   
-#IMAGES/ICONS USED:
+# IMAGES/ICONS USED:
   - https://www.flaticon.com/free-icon/book_2436729?term=book&related_id=2436729
   - https://www.flaticon.com/free-icon/books_3771417?term=books&page=1&position=20&origin=search&related_id=3771417
   - https://www.flaticon.com/free-icon/law_3122427?term=law&page=1&position=2&origin=search&related_id=3122427
