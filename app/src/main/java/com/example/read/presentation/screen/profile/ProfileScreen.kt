@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -31,6 +33,7 @@ import com.example.read.presentation.CommonViewModel
 import com.example.read.presentation.screen.home.HomeViewModel
 import com.example.read.presentation.screen.home.components.Header
 import com.example.read.presentation.screen.profile.components.AchievementsSection
+import com.example.read.presentation.screen.profile.components.MyAlertDialog
 import com.example.read.presentation.screen.profile.components.StatsSection
 import com.example.read.presentation.screen.profile.components.YourFavoritesSection
 import com.example.read.util.getFavCategory
@@ -48,6 +51,14 @@ fun ProfileScreen(
     val context = LocalContext.current
     val userBooks = profileViewModel.booksFromFB.value.filter {
         it.userId == currentUser?.uid.toString()
+    }
+
+    val openDialog = remember {
+        mutableStateOf(false)
+    }
+
+    val myAchievement = remember {
+        mutableStateOf(Achievement())
     }
 
     Box(
@@ -144,10 +155,16 @@ fun ProfileScreen(
                     AchievementsSection(
                         context = context,
                         achievementList = profileViewModel.achievementsFromFB.value.filter { it.userId == currentUser?.uid }
-                    )
+                    ) { achievement ->
+                        myAchievement.value = achievement
+                        openDialog.value = !openDialog.value
+                    }
                 }
             }
         }
+
+        if (openDialog.value)
+            MyAlertDialog(openDialog = openDialog, achievement = myAchievement.value, context = context)
     }
 }
 

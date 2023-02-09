@@ -11,9 +11,7 @@ fun handleAchievementState(
     bookList: List<BookFB>,
     achievementList: List<Achievement>,
     viewModel: CommonViewModel,
-    context: Context,
 ) {
-
     achievementList.forEach { achievement ->
 
         when (achievement.name) {

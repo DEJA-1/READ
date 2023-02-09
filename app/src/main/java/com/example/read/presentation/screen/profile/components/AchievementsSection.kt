@@ -10,6 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -26,9 +28,9 @@ import com.example.read.presentation.screen.profile.components.AchievementElemen
 @Composable
 fun AchievementsSection(
     achievementList: List<Achievement>,
-    context: Context
+    context: Context,
+    onAchievementClicked: (Achievement) -> Unit
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -41,7 +43,9 @@ fun AchievementsSection(
         ) {
 
             Text(
-                modifier = Modifier.align(CenterHorizontally).padding(8.dp),
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .padding(8.dp),
                 text = "ACHIEVEMENTS",
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic,
@@ -51,11 +55,14 @@ fun AchievementsSection(
             )
 
             LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(0.8f),
-                columns = GridCells.Fixed(4)) {
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.8f),
+                columns = GridCells.Fixed(4)
+            ) {
                 items(achievementList) { achievement ->
                     AchievementElement(achievement = achievement, context = context) {
-
+                        onAchievementClicked(achievement)
                     }
                 }
             }
