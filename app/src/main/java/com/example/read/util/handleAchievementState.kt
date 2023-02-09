@@ -1,23 +1,33 @@
 package com.example.read.util
 
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.example.read.domain.model.Achievement
 import com.example.read.domain.model.BookFB
 import com.example.read.presentation.CommonViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDateTime
+import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun handleAchievementState(
     bookList: List<BookFB>,
     achievementList: List<Achievement>,
     viewModel: CommonViewModel,
+    context: Context
 ) {
+
     achievementList.forEach { achievement ->
 
         when (achievement.name) {
             "book" -> {
-                if (bookList.size >= 1) {
-                    viewModel.updateAchievement(achievement, true)
+                if (bookList.isNotEmpty()) {
+                    if (!achievement.isUnlocked) {
+                        viewModel.updateAchievement(achievement, true)
+
+                    }
 
                 }
             }

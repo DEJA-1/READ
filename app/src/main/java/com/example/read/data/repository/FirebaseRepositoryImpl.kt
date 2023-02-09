@@ -8,6 +8,7 @@ import com.example.read.commons.Resource
 import com.example.read.domain.model.Achievement
 import com.example.read.domain.model.BookFB
 import com.example.read.domain.repository.FirebaseRepository
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -145,7 +146,8 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override suspend fun updateAchievement(achievement: Achievement, isUnlocked: Boolean) {
         val achievementUpdate = hashMapOf(
-            "unlocked" to isUnlocked
+            "unlocked" to isUnlocked,
+            "unlockedAt" to Timestamp.now()
         ).toMap()
 
         achievement.id?.let { id ->

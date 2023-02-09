@@ -31,6 +31,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.read.commons.AppColors
 import com.example.read.domain.model.Achievement
+import java.text.SimpleDateFormat
 
 @Composable
 fun MyAlertDialog(openDialog: MutableState<Boolean>, achievement: Achievement, context: Context) {
@@ -105,8 +106,12 @@ fun CustomDialogUi(
                     overflow = TextOverflow.Ellipsis
                 )
 
+
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+                val formattedDate = if(achievement.unlockedAt == null) "Not unlocked yet" else dateFormat.format(
+                    achievement.unlockedAt!!.toDate())
                 Text(
-                    text = "Acquired: 08-02-2023",
+                    text = "Acquired: $formattedDate",
                     textAlign = TextAlign.Center,
                     color = AppColors.mTextWhite,
                     modifier = Modifier

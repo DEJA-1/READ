@@ -55,7 +55,8 @@ fun HomeScreen(
     handleAchievementState(
         bookList = userBooks,
         achievementList = profileViewModel.achievementsFromFB.value.filter { it.userId == currentUser?.uid.toString() },
-        commonViewModel
+        commonViewModel,
+        context
     )
     commonViewModel.getReadBooksSize(userBooks.filter { it.read && it.rated })
 

@@ -3,11 +3,13 @@ package com.example.read.domain.model
 import android.graphics.drawable.Drawable
 import android.media.Image
 import com.example.read.R
+import com.google.firebase.Timestamp
 
 data class Achievement(
     val id: String? = null,
     val name: String = "",
     var isUnlocked: Boolean = false,
+    var unlockedAt: Timestamp? = null,
     val imageUnlocked: String = "",
     val description: String = "",
     val userId: String? = null,
