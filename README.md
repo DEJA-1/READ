@@ -4,7 +4,6 @@
   
   ![image](https://user-images.githubusercontent.com/83213476/217567252-80eca6e9-eeee-4280-b52b-054c8201953d.png) ![image](https://user-images.githubusercontent.com/83213476/217915465-93fd0a0f-113f-4f9a-a20c-19591da03ea4.png)
 
-
 # READ
 
   - Animated Login Screen
