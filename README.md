@@ -1,9 +1,8 @@
 # RECENT CHANGES
 
-  - Added achievement system 
+  - Added achievements system 
   
   ![image](https://user-images.githubusercontent.com/83213476/217567252-80eca6e9-eeee-4280-b52b-054c8201953d.png) ![image](https://user-images.githubusercontent.com/83213476/217915465-93fd0a0f-113f-4f9a-a20c-19591da03ea4.png)
-
 
 # READ
 
@@ -52,3 +51,4 @@
   - https://www.flaticon.com/free-icon/android_2222807?term=android&related_id=2222807
   - https://www.flaticon.com/free-icon/book_3330314?term=book&page=1&position=17&origin=search&related_id=3330314
   - https://www.flaticon.com/free-icon/business_3281412?term=business&page=1&position=7&origin=search&related_id=3281412
+  - https://www.flaticon.com/free-icon/books_9419014?term=books&page=2&position=53&origin=search&related_id=9419014
